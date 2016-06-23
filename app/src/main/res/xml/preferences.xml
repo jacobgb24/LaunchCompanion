@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="Settings">
+		<CheckBoxPreference
+			android:key="pref_darkTheme"
+			android:title="Dark Theme"
+			android:defaultValue="false" />
+		<CheckBoxPreference
+			android:key="pref_disImg"
+			android:title="Disable image loading"
+			android:defaultValue="false" />
+		<CheckBoxPreference
+			android:key="pref_noCustTabs"
+			android:title="Disable Chrome Custom Tabs"
+			android:summary="Load news articles normally (faster on most devices)"
+			android:defaultValue="false" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Other">
+		<Preference
+			android:key="pref_version"
+			android:title="" />
+		<Preference
+			android:key="pref_rate"
+			android:title="Rate App" />
+		<Preference
+			android:key="pref_email"
+			android:title="Email the developer" />
+		<Preference
+			android:key="pref_about"
+			android:title="About" />
+	</PreferenceCategory>
+</PreferenceScreen>

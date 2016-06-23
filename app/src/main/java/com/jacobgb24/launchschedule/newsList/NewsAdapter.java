@@ -1,0 +1,81 @@
+package com.jacobgb24.launchschedule.newsList;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Intent;
+import android.preference.PreferenceManager;
+import android.support.customtabs.CustomTabsClient;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.jacobgb24.launchschedule.MainActivity;
+import com.jacobgb24.launchschedule.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by jacob_000 on 9/16/2015.
+ */
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+    private List<FeedParser.Entry> list = new ArrayList<>();
+    private Activity activity;
+
+    public NewsAdapter(List<FeedParser.Entry> list, Activity a) {
+        this.list = list;
+        this.activity = a;
+    }
+
+    public void setList(List<FeedParser.Entry> newsList) {
+        this.list.clear();
+        this.list.addAll(newsList);
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, final int pos) {
+        holder.newsTitle.setText(list.get(pos).getTitle());
+        holder.newsDate.setText(list.get(pos).getPublished());
+        if (!PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext()).getBoolean("pref_disImg", false))
+            Glide.with(activity.getApplicationContext()).load(list.get(pos).getImg()).centerCrop().override(200, 200).into(holder.newsImage);
+        else
+            holder.newsImage.setVisibility(View.GONE);
+        holder.newsCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)activity).loadURL(list.get(pos).getLink());
+            }
+        });
+
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_news, viewGroup, false);
+        return new ViewHolder(itemView);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView newsTitle, newsDate;
+        public ImageView newsImage;
+        public CardView newsCardView;
+
+        public ViewHolder(View v) {
+            super(v);
+            newsTitle = (TextView) v.findViewById(R.id.news_title);
+            newsDate = (TextView) v.findViewById(R.id.news_date);
+            newsImage = (ImageView) v.findViewById(R.id.news_image);
+            newsCardView = (CardView) v.findViewById(R.id.news_card_view);
+        }
+    }
+}

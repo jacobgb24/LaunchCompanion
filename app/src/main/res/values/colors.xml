@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cardview_dark_background">#FF212121</color>
+    <color name="textColorSecondary">?android:textColorSecondary</color>
+    <color name="textColorPrimary">?android:textColorPrimary</color>
+</resources>

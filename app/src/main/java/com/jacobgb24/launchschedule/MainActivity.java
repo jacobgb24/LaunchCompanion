@@ -36,8 +36,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-
 
 import com.jacobgb24.launchschedule.launchList.LaunchListFragment;
 import com.jacobgb24.launchschedule.newsList.NewsArticleActivity;
@@ -157,4 +155,3 @@ public class MainActivity extends AppCompatActivity {
             return false;
     }
 }
-//commit test please ignore

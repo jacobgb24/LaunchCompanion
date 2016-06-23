@@ -1,10 +1,7 @@
 package com.jacobgb24.launchschedule.newsList;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.support.customtabs.CustomTabsClient;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

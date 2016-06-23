@@ -51,7 +51,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
     public int getItemCount() {
         return list.size();
     }
-
+//todo add location
     @Override
     public void onBindViewHolder(ViewHolder holder, final int pos) {
         holder.mission.setText(list.get(pos).getMission());

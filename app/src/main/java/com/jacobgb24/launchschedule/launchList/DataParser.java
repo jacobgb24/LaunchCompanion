@@ -1,7 +1,6 @@
 package com.jacobgb24.launchschedule.launchList;
 
 import android.text.format.DateFormat;
-import android.util.Log;
 
 import com.jacobgb24.launchschedule.MainActivity;
 

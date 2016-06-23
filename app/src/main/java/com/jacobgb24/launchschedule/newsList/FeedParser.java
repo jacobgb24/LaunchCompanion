@@ -82,7 +82,7 @@ public class FeedParser {
             } else if (name.equals("title")) {
                 title = readBasicTag(parser, "title");
             } else if (name.equals("link")) {
-                String tempLink = readBasicTag(parser, "link");;
+                String tempLink = readBasicTag(parser, "link");
                 if (tempLink != null) {
                     link = tempLink;
                 }

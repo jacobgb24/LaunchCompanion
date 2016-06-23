@@ -118,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
-
+//todo make header match theme
+//todo fix api levels
     public void loadURL(String url){
         if(isChromeCustomTabsSupported() && !PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noCustTabs", false)) {
             CustomTabsClient.bindCustomTabsService(MainActivity.this, tabsPackage, customTabsServiceConnection);

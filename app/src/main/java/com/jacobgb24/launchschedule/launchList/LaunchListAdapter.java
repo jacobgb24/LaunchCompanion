@@ -19,12 +19,12 @@ package com.jacobgb24.launchschedule.launchList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jacobgb24.launchschedule.R;
@@ -56,10 +56,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, final int pos) {
         holder.mission.setText(list.get(pos).getMission());
         holder.mission.setSelected(true);
-        holder.vehicle.setText(list.get(pos).getVehicle());
+        String test = list.get(pos).getLocation();
+        test=test.substring(test.lastIndexOf(",")+1,test.length()).trim();
+
+        holder.vehicle.setText(list.get(pos).getVehicle()+" • "+test);
         holder.date.setText(list.get(pos).getDate());
         holder.time.setText(Html.fromHtml(list.get(pos).getTime()));
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+
+        holder.launchLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, DetailedActivity.class);
@@ -73,17 +77,17 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_launch, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.launch_list_item, viewGroup, false);
         return new ViewHolder(itemView);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mission, vehicle, date, time;
-        public CardView cardView;
+        public LinearLayout launchLinearLayout;
 
         public ViewHolder(View v) {
             super(v);
-            cardView = (CardView) v.findViewById(R.id.card_view);
+            launchLinearLayout = (LinearLayout) v.findViewById(R.id.launch_item_layout);
             mission = (TextView) v.findViewById(R.id.mission);
             vehicle = (TextView) v.findViewById(R.id.vehicle);
             date = (TextView) v.findViewById(R.id.date);

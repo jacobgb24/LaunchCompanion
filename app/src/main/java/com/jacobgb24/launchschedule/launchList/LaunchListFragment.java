@@ -30,6 +30,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import support.DividerItemDecoration;
+
 /**
  * Created by jacob_000 on 9/15/2015.
  */
@@ -48,6 +50,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.accent_material_light);
         swipeRefreshLayout.setOnRefreshListener(refreshListener);
         rv = (RecyclerView) view.findViewById(R.id.list);
+        rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         refreshListener.onRefresh();
         return view;
     }

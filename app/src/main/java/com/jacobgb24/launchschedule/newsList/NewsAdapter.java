@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -47,7 +48,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             Glide.with(activity.getApplicationContext()).load(list.get(pos).getImg()).centerCrop().override(200, 200).into(holder.newsImage);
         else
             holder.newsImage.setVisibility(View.GONE);
-        holder.newsCardView.setOnClickListener(new View.OnClickListener() {
+        holder.newsLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity)activity).loadURL(list.get(pos).getLink());
@@ -58,21 +59,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_news, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_list_item, viewGroup, false);
         return new ViewHolder(itemView);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView newsTitle, newsDate;
         public ImageView newsImage;
-        public CardView newsCardView;
+        public LinearLayout newsLinearLayout;
 
         public ViewHolder(View v) {
             super(v);
             newsTitle = (TextView) v.findViewById(R.id.news_title);
             newsDate = (TextView) v.findViewById(R.id.news_date);
             newsImage = (ImageView) v.findViewById(R.id.news_image);
-            newsCardView = (CardView) v.findViewById(R.id.news_card_view);
+            newsLinearLayout = (LinearLayout) v.findViewById(R.id.news_item_layout);
         }
     }
 }

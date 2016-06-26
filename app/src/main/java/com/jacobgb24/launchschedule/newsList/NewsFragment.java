@@ -24,6 +24,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import support.DividerItemDecoration;
+
 /**
  * Created by jacob_000 on 9/16/2015.
  */
@@ -39,6 +41,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_news, viewGroup, false);
         rv = (RecyclerView) view.findViewById(R.id.list_news);
+        rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout_news);
         swipeRefreshLayout.setColorSchemeResources(R.color.accent_material_light);
         swipeRefreshLayout.setOnRefreshListener(refreshListener);

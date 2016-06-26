@@ -7,6 +7,7 @@
 	android:id="@+id/swipe_layout">
 	<android.support.v7.widget.RecyclerView
 		android:id="@+id/list"
+
 		android:fadeScrollbars="false"
 		android:scrollbarStyle="outsideOverlay"
 		android:padding="8dp"

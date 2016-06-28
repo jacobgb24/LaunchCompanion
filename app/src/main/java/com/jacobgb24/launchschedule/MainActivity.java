@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,6 +35,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -48,6 +51,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static Context context;
+    public boolean DarkThemeUsed=false;
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient client;
     private CustomTabsSession customTabsSession;
@@ -56,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_darkTheme", false))
+        if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_darkTheme", false)) {
             setTheme(R.style.AppThemeDarkNoAB);
+            DarkThemeUsed=true;
+        }
         else
             setTheme(R.style.AppThemeNoAB);
         super.onCreate(savedInstanceState);
@@ -66,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(DarkThemeUsed)
+            toolbar.setPopupTheme(R.style.PopupMenu_Dark);
         setSupportActionBar(toolbar);
         TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -118,12 +126,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
-//todo make header match theme
 //todo fix api levels
     public void loadURL(String url){
         if(isChromeCustomTabsSupported() && !PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noCustTabs", false)) {
             CustomTabsClient.bindCustomTabsService(MainActivity.this, tabsPackage, customTabsServiceConnection);
-            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder(customTabsSession).build();
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            CustomTabsIntent customTabsIntent = builder.build();
+            if(DarkThemeUsed)
+                builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.cardview_dark_background));
             customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
             customTabsIntent.launchUrl(MainActivity.this, Uri.parse(url));
         }

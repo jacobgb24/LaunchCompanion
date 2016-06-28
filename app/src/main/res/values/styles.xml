@@ -25,10 +25,13 @@
         <item name="cardStyle">@style/CardView.Dark</item>
     </style>
 
+    <style name="PopupMenu_Dark" parent="ThemeOverlay.AppCompat">
+    </style>
 
     <style name="CardView.Dark">
         <item name="cardBackgroundColor">@color/cardview_dark_background</item>
     </style>
     <attr name="locimg" format="reference"/>
     <attr name="timeimg" format="reference"/>
+
 </resources>

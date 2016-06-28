@@ -8,9 +8,9 @@
 	<android.support.v7.widget.RecyclerView
 		android:id="@+id/list"
 
-		android:fadeScrollbars="false"
+		android:fadeScrollbars="true"
 		android:scrollbarStyle="outsideOverlay"
-		android:padding="8dp"
+		android:paddingTop="8dp"
 		android:clipToPadding="false"
 		android:layout_width="match_parent"
 		android:scrollbars="vertical"

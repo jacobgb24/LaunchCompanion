@@ -64,7 +64,6 @@ public class DataParser {
                     if(time.trim().equals(""))
                         time="TBD";
                     String newDate = "";
-                    Log.e("time", time);
                     // both date and time present
                     if (!time.contains("TBD") && !launch.getDate().contains("TBD")) {
                         SimpleDateFormat sdf = new SimpleDateFormat("MMM d HHmm z yyyy", Locale.ENGLISH);

@@ -1,11 +1,20 @@
 package com.jacobgb24.launchschedule;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.view.LayoutInflater;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,19 +27,89 @@ public class AboutActivity extends AppCompatActivity {
         if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_darkTheme", false))
             setTheme(R.style.AppThemeDark);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        TextView info = (TextView) findViewById(R.id.about_info);
-        try {
-            String text = "• <a href=\"http://pilot51.com/wiki/L-Clock\">L-Clock</a> for original idea and source code<p>" +
-                    "• <a href=\"https://spaceflightnow.com/launch-schedule\">SpaceFlightNow</a> for data on launches<p>" +
-                    "• <a href=\"http://spacenews.com\">SpaceNews</a> for news articles<p>"+
-                    "• <a href=\"https://github.com/bumptech/glide\">Glide</a> for an amazing image library<p>" +
-                    "• <a href=\"http://imgur.com/a/OJGIP\">All images with sources</a>";
-            info.setText(Html.fromHtml(text));
-            Linkify.addLinks(info, Linkify.ALL);
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error opening webpage", Toast.LENGTH_SHORT).show();
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new AboutFragment())
+                .commit();
+
+    }
+
+    public static class AboutFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.activity_about);
+
+            Preference version = findPreference("about_version");
+            version.setTitle("Version " + getResources().getString(R.string.app_version));
+            version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                int count = 0;
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    count++;
+                    if (count == 8) {
+                        Toast.makeText(getActivity().getApplicationContext(), "This is a lazy easter egg ¯\\_(シ)_/¯", Toast.LENGTH_SHORT).show();
+                        count = 0;
+                    }
+                    return false;
+                }
+            });
+            Preference images = findPreference("about_imgs");
+            images.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent imgur = new Intent(Intent.ACTION_VIEW, Uri.parse("http://imgur.com/a/OJGIP"));
+                    startActivity(imgur);
+                    return false;
+                }
+            });
+            Preference sfn = findPreference("about_sfn");
+            sfn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent sfn = new Intent(Intent.ACTION_VIEW, Uri.parse("http://spaceflightnow.com"));
+                    startActivity(sfn);
+                    return false;
+                }
+            });
+            Preference sn = findPreference("about_sn");
+            sn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent sn = new Intent(Intent.ACTION_VIEW, Uri.parse("http://spacenews.com"));
+                    startActivity(sn);
+                    return false;
+                }
+            });
+            Preference glide = findPreference("about_glide");
+            glide.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    WebView view = new WebView(getActivity());
+                    view.loadUrl("file:///android_asset/licenseGlide");
+                    AlertDialog alertDialog= new AlertDialog.Builder(getActivity())
+                            .setTitle("Glide")
+                            .setView(view)
+                            .setPositiveButton("ok", null)
+                            .create();
+                    alertDialog.show();
+                    return false;
+                }
+            });
+            Preference lclock = findPreference("about_lclock");
+            lclock.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    WebView view = new WebView(getActivity());
+                    view.loadUrl("file:///android_asset/licenseLclock");
+                    AlertDialog alertDialog= new AlertDialog.Builder(getActivity())
+                            .setTitle("L-Clock")
+                            .setView(view)
+                            .setPositiveButton("ok", null)
+                            .create();
+                    alertDialog.show();
+                    return false;
+                }
+            });
         }
-        info.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

@@ -17,9 +17,6 @@
 	</PreferenceCategory>
 	<PreferenceCategory android:title="Other">
 		<Preference
-			android:key="pref_version"
-			android:title="" />
-		<Preference
 			android:key="pref_rate"
 			android:title="Rate App" />
 		<Preference

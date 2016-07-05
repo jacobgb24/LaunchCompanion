@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/open_map" android:title="Open location in map"
+    <item android:id="@+id/detailed_settings" android:title="Settings"
         app:showAsAction="never" />
 </menu>

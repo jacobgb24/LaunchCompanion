@@ -132,8 +132,7 @@ public class MainActivity extends AppCompatActivity {
             CustomTabsClient.bindCustomTabsService(MainActivity.this, tabsPackage, customTabsServiceConnection);
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             CustomTabsIntent customTabsIntent = builder.build();
-            if(DarkThemeUsed)
-                builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.cardview_dark_background));
+            builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.cardview_dark_background));
             customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
             customTabsIntent.launchUrl(MainActivity.this, Uri.parse(url));
         }
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isChromeCustomTabsSupported() {
         PackageManager pm = context.getPackageManager();
-        Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.test-url.com"));
+        Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.glideLicense-url.com"));
         List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(activityIntent, 0);
         List<String> packagesSupportingCustomTabs = new ArrayList<>();
         for (ResolveInfo info : resolvedActivityList) {

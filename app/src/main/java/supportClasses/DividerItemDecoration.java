@@ -1,4 +1,4 @@
-package support;
+package supportClasses;
 
 /**
  * Created by Jacob on 6/25/16.

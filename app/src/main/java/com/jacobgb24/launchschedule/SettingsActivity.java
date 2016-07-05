@@ -42,22 +42,6 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
 
-            Preference version = findPreference("pref_version");
-            version.setTitle("Version " + getResources().getString(R.string.app_version));
-            version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                int count = 0;
-
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    count++;
-                    if (count == 8) {
-                        Toast.makeText(getActivity().getApplicationContext(), "This is a lazy easter egg ¯\\_(シ)_/¯", Toast.LENGTH_SHORT).show();
-                        count = 0;
-                    }
-                    return false;
-                }
-            });
-
             Preference about = findPreference("pref_about");
             about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

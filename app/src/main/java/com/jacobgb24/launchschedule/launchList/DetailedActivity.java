@@ -13,16 +13,19 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jacobgb24.launchschedule.R;
+import com.jacobgb24.launchschedule.SettingsActivity;
 
 import java.text.DecimalFormat;
 
@@ -42,41 +45,53 @@ public class DetailedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed);
         Intent i = getIntent();
         launch = i.getParcelableExtra("LAUNCH_OBJ");
+        setTitle(launch.getMission());
         fillView();
 
     }
 
     private void fillView() {
-        TextView title = (TextView) findViewById(R.id.dcard_title);
         TextView subtitle = (TextView) findViewById(R.id.dcard_subtitle);
         ImageView imageView = (ImageView) findViewById(R.id.dcard_img);
         TextView time = (TextView) findViewById(R.id.dcard_time);
         TextView location = (TextView) findViewById(R.id.dcard_location);
         TextView details = (TextView) findViewById(R.id.dcard_details);
         TextView countdown = (TextView) findViewById(R.id.dcard_countdown);
-        final Button reminderButt = (Button) findViewById(R.id.dcard_reminderButt);
+        LinearLayout locItem = (LinearLayout) findViewById(R.id.dcard_loc_item);
+        LinearLayout timeItem = (LinearLayout) findViewById(R.id.dcard_time_item);
 
         if (!launch.hasCal() || launch.getCal().getTimeInMillis() < System.currentTimeMillis()) {
-            reminderButt.setVisibility(View.GONE);
             countdown.setVisibility(View.GONE);
         } else {
             setCountdown(countdown);
         }
 
-        reminderButt.setOnClickListener(new View.OnClickListener() {
+        timeItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(DetailedActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, 16);
-                } else
-                    createReminder();
+                if (launch.hasCal() || !(launch.getCal().getTimeInMillis() < System.currentTimeMillis())) {
+
+                    if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(DetailedActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, 16);
+                    } else
+                        createReminder();
+                }
+            }
+        });
+        locItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + launch.getLocation())));
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Could not open map", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         time.setText(launch.getDate() + " at " + launch.getTime());
         location.setText(launch.getLocation());
         details.setText(launch.getDescription());
-        title.setText(launch.getMission());
         subtitle.setText(launch.getVehicle());
 
         if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_disImg", false)) {
@@ -136,6 +151,7 @@ public class DetailedActivity extends AppCompatActivity {
     }
 
     private void createReminder() {
+        Log.e("worked", "ds");
         try {
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
@@ -183,7 +199,7 @@ public class DetailedActivity extends AppCompatActivity {
                 String timeRemaining = "";
                 if (days > 0) timeRemaining += df.format(days) + ":";
                 timeRemaining += df.format(hours) + ":" + df.format(minutes) + ":" + df.format(seconds);
-                countdown.setText(Html.fromHtml("<b>T-</b>" + timeRemaining));
+                countdown.setText("T-" + timeRemaining);
             }
 
             @Override
@@ -209,12 +225,9 @@ public class DetailedActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.open_map:
-                try {
-                    startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + launch.getLocation())));
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Could not open map", Toast.LENGTH_SHORT).show();
-                }
+            case R.id.detailed_settings:
+                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(settingsIntent);
                 return true;
         }
         return false;

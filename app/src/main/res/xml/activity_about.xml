@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <Preference
+        android:key="about_version"
+        android:title="" />
+    <Preference
+        android:key="about_imgs"
+        android:title="Image Sources" />
+    <PreferenceCategory android:title="Websites">
+        <Preference
+            android:key="about_sfn"
+            android:title="SpaceFlightNow.com" />
+        <Preference
+            android:key="about_sn"
+            android:title="SpaceNews.com" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Licenses">
+        <Preference
+            android:key="about_lclock"
+            android:title="L-Clock"/>
+        <Preference
+            android:key="about_glide"
+            android:title="Glide" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

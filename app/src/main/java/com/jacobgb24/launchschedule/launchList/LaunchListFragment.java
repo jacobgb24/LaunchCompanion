@@ -30,7 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import support.DividerItemDecoration;
+import supportClasses.DividerItemDecoration;
 
 /**
  * Created by jacob_000 on 9/15/2015.

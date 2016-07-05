@@ -1,6 +1,7 @@
 package com.jacobgb24.launchschedule.launchList;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.jacobgb24.launchschedule.MainActivity;
 
@@ -41,7 +42,10 @@ public class DataParser {
 
                 // Date
                 int tmpIndex = eventData.indexOf("launchdate");
-                launch.setDate(eventData.substring(tmpIndex + 12, eventData.indexOf("<", tmpIndex)).replace("Sept.", "Sep."));
+                String date = eventData.substring(tmpIndex + 12, eventData.indexOf("<", tmpIndex)).replace("Sept.", "Sep.");
+                if(date.trim().equals(""))
+                    date="TBD";
+                launch.setDate(date);
                 launch.setYear(year);
 
                 // Vehicle
@@ -57,7 +61,10 @@ public class DataParser {
                     String time = eventData.substring(tmpIndex, eventData.indexOf("<br", tmpIndex)).replaceAll("\\.m\\.", "m").trim();
                     time = time.replaceAll("Approx. (:[0-9]{2})?| on [0-9]{1,2}(st|nd|rd|th)| \\([^)]*\\)", "");
                     time = time.replaceAll("(:[0-9]{2})", "");
+                    if(time.trim().equals(""))
+                        time="TBD";
                     String newDate = "";
+                    Log.e("time", time);
                     // both date and time present
                     if (!time.contains("TBD") && !launch.getDate().contains("TBD")) {
                         SimpleDateFormat sdf = new SimpleDateFormat("MMM d HHmm z yyyy", Locale.ENGLISH);

@@ -119,7 +119,6 @@ public class NewsFragment extends android.support.v4.app.Fragment {
             super.onPostExecute(result);
         }
     }
-//todo move to main activty (also in launch frag) make color match theme
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
         super.onCreateOptionsMenu(menu, inflater);

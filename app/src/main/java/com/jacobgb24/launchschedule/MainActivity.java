@@ -39,6 +39,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.jacobgb24.launchschedule.launchList.LaunchListFragment;
 import com.jacobgb24.launchschedule.newsList.NewsArticleActivity;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private CustomTabsServiceConnection customTabsServiceConnection;
     private CustomTabsClient client;
     private CustomTabsSession customTabsSession;
+    private CustomTabsIntent customTabsIntent;
     private String tabsPackage="";
 
     @Override
@@ -125,15 +127,24 @@ public class MainActivity extends AppCompatActivity {
                 client = null;
             }
         };
+        isChromeCustomTabsSupported();
+        CustomTabsClient.bindCustomTabsService(MainActivity.this, tabsPackage, customTabsServiceConnection);
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
+        customTabsIntent = builder.build();
+        builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_arrow_back_white_24dp));
+        builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.cardview_dark_background));
+        customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
+
     }
-//todo fix api levels
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Unbind the custom tabs service
+    }
+
     public void loadURL(String url){
         if(isChromeCustomTabsSupported() && !PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noCustTabs", false)) {
-            CustomTabsClient.bindCustomTabsService(MainActivity.this, tabsPackage, customTabsServiceConnection);
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            CustomTabsIntent customTabsIntent = builder.build();
-            builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.cardview_dark_background));
-            customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
             customTabsIntent.launchUrl(MainActivity.this, Uri.parse(url));
         }
         else {

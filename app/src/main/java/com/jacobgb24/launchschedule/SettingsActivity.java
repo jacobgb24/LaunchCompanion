@@ -64,25 +64,7 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
-            Preference email = findPreference("pref_email");
-            email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    try {
-                        Intent send = new Intent(Intent.ACTION_SENDTO);
-                        String uriText = "mailto:" + Uri.encode("jacobldavis98@gmail.com") +
-                                "?subject=" + Uri.encode("Launch Companion");
-                        Uri uri = Uri.parse(uriText);
 
-                        send.setData(uri);
-                        startActivity(Intent.createChooser(send, "Send mail..."));
-
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Couldn't send email", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                }
-            });
             Preference rate = findPreference("pref_rate");
             rate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

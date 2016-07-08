@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class FeedParser {
+class FeedParser {
 
     private static final String ns = null;
 
@@ -50,7 +50,7 @@ public class FeedParser {
 
     private static List<Entry> readFeed(XmlPullParser parser)
             throws XmlPullParserException, IOException, ParseException {
-        List<Entry> entries = new ArrayList<Entry>();
+        List<Entry> entries = new ArrayList<>();
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG)
                 continue;
@@ -114,7 +114,7 @@ public class FeedParser {
         link = readText(parser);
         try {
             link = link.substring(link.indexOf("src") + 4, link.indexOf("class")).replaceAll("\"", "");
-        } catch (Exception e){  }
+        } catch (Exception e){ e.printStackTrace(); }
         while (true) {
             if (parser.nextTag() == XmlPullParser.END_TAG) break;
         }

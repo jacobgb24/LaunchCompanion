@@ -36,7 +36,7 @@ import supportClasses.DividerItemDecoration;
  * Created by jacob_000 on 9/15/2015.
  */
 public class LaunchListFragment extends android.support.v4.app.Fragment {
-    public RecyclerView rv;
+    private RecyclerView rv;
     private LaunchListAdapter adapter;
     private List<Launch> launchList;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -47,7 +47,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_launchlist, viewGroup, false);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.accent_material_light);
+        swipeRefreshLayout.setColorSchemeResources(R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(refreshListener);
         rv = (RecyclerView) view.findViewById(R.id.list);
         rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
@@ -113,10 +113,6 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
     }
 
     private class DownloadFile extends AsyncTask<String, Integer, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
         @Override
         protected String doInBackground(String... params) {

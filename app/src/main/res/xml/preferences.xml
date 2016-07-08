@@ -20,9 +20,6 @@
 			android:key="pref_rate"
 			android:title="Rate App" />
 		<Preference
-			android:key="pref_email"
-			android:title="Email the developer" />
-		<Preference
 			android:key="pref_about"
 			android:title="About" />
 	</PreferenceCategory>

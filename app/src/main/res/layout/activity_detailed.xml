@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
 
     android:clipToPadding="false"
@@ -11,12 +11,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
             android:orientation="vertical">
 
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                tools:ignore="true"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
                 android:id="@+id/dcard_img" />
@@ -108,7 +110,5 @@
                     android:id="@+id/dcard_location"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-
-
         </LinearLayout>
 </ScrollView>

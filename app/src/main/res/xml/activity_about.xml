@@ -2,13 +2,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
+    <PreferenceCategory android:title="Info">
     <Preference
         android:key="about_version"
         android:title="" />
     <Preference
+        android:key="about_email"
+        android:title="Email the developer" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Images and Websites">
+    <Preference
         android:key="about_imgs"
         android:title="Image Sources" />
-    <PreferenceCategory android:title="Websites">
         <Preference
             android:key="about_sfn"
             android:title="SpaceFlightNow.com" />

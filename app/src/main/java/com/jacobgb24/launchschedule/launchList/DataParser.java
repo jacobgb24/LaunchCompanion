@@ -1,8 +1,6 @@
 package com.jacobgb24.launchschedule.launchList;
 
 import android.text.format.DateFormat;
-import android.util.Log;
-
 import com.jacobgb24.launchschedule.MainActivity;
 
 import java.text.ParseException;
@@ -17,7 +15,7 @@ import java.util.TimeZone;
 /**
  * Created by jacob_000 on 7/25/2015.
  */
-public class DataParser {
+class DataParser {
     private static boolean hr24 = DateFormat.is24HourFormat(MainActivity.context);
 
     static List<Launch> parseData(String data) {

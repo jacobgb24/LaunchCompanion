@@ -12,12 +12,10 @@ import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,6 +48,7 @@ public class DetailedActivity extends AppCompatActivity {
 
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void fillView() {
         TextView subtitle = (TextView) findViewById(R.id.dcard_subtitle);
         ImageView imageView = (ImageView) findViewById(R.id.dcard_img);
@@ -178,7 +177,6 @@ public class DetailedActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(this,"Reminder can't be created without permission", Toast.LENGTH_SHORT).show();
                 }
-                return;
             }
         }
     }

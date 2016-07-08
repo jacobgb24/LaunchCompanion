@@ -7,5 +7,6 @@
     <WebView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/articleWebview"></WebView>
+        android:id="@+id/articleWebview">
+    </WebView>
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:clickable="true"
     android:focusable="true"
     android:background="?android:attr/selectableItemBackground"
@@ -15,7 +16,8 @@
             android:layout_height="72dp"
             android:layout_width="72dp"
             android:layout_gravity="center"
-            android:id="@+id/news_image" />
+            android:id="@+id/news_image"
+            tools:ignore="ContentDescription" />
         <LinearLayout
             android:layout_width="fill_parent"
             android:orientation="vertical"
@@ -23,20 +25,16 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/news_title"
-                android:gravity="left|center_vertical"
                 android:ellipsize="end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:textColor="?android:textColorPrimary"
-                android:textAlignment="gravity" />
+                android:textColor="?android:textColorPrimary" />
             <TextView
                 android:id="@+id/news_date"
-                android:gravity="left|center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="?android:textColorSecondary"
-                android:textAlignment="gravity" />
+                android:textColor="?android:textColorSecondary" />
         </LinearLayout>
 </LinearLayout>

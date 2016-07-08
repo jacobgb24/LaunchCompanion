@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -39,7 +38,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.jacobgb24.launchschedule.launchList.LaunchListFragment;
 import com.jacobgb24.launchschedule.newsList.NewsArticleActivity;
@@ -52,8 +50,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static Context context;
-    public boolean DarkThemeUsed=false;
-    private CustomTabsServiceConnection customTabsServiceConnection;
+    private boolean DarkThemeUsed=false;
     private CustomTabsClient client;
     private CustomTabsSession customTabsSession;
     private CustomTabsIntent customTabsIntent;
@@ -113,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        customTabsServiceConnection = new CustomTabsServiceConnection() {
+        CustomTabsServiceConnection customTabsServiceConnection = new CustomTabsServiceConnection() {
             @Override
             public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
                 //Pre-warming
@@ -122,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 customTabsSession = client.newSession(null);
 
             }
+
             @Override
             public void onServiceDisconnected(ComponentName name) {
                 client = null;
@@ -132,15 +130,9 @@ public class MainActivity extends AppCompatActivity {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
         customTabsIntent = builder.build();
         builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_arrow_back_white_24dp));
-        builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.cardview_dark_background));
+        builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
         customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
 
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // Unbind the custom tabs service
     }
 
     public void loadURL(String url){

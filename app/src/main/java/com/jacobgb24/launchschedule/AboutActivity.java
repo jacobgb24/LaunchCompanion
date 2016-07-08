@@ -1,21 +1,14 @@
 package com.jacobgb24.launchschedule;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
-import android.view.LayoutInflater;
 import android.webkit.WebView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -51,6 +44,25 @@ public class AboutActivity extends AppCompatActivity {
                         count = 0;
                     }
                     return false;
+                }
+            });
+            Preference email = findPreference("about_email");
+            email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    try {
+                        Intent send = new Intent(Intent.ACTION_SENDTO);
+                        String uriText = "mailto:" + Uri.encode("jacobldavis98@gmail.com") +
+                                "?subject=" + Uri.encode("Launch Companion");
+                        Uri uri = Uri.parse(uriText);
+
+                        send.setData(uri);
+                        startActivity(Intent.createChooser(send, "Send mail..."));
+
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Couldn't send email", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
                 }
             });
             Preference images = findPreference("about_imgs");

@@ -43,7 +43,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         rv = (RecyclerView) view.findViewById(R.id.list_news);
         rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout_news);
-        swipeRefreshLayout.setColorSchemeResources(R.color.accent_material_light);
+        swipeRefreshLayout.setColorSchemeResources(R.color.accent);
         swipeRefreshLayout.setOnRefreshListener(refreshListener);
         rssItemList = new ArrayList<>();
 
@@ -82,11 +82,6 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     };
 
     private class DownloadFile extends AsyncTask<String, Integer, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
         @Override
         protected String doInBackground(String... params) {
             try {

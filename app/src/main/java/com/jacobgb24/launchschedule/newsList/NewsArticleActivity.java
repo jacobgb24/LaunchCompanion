@@ -31,7 +31,7 @@ public class NewsArticleActivity extends AppCompatActivity {
         link = i.getStringExtra("ARTICLE_LINK");
 
         final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout_article);
-        refreshLayout.setColorSchemeResources(R.color.accent_material_light);
+        refreshLayout.setColorSchemeResources(R.color.accent);
         refreshLayout.setEnabled(false);
 
         webView.setWebChromeClient(new WebChromeClient() {

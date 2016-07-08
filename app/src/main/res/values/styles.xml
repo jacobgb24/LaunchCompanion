@@ -5,14 +5,10 @@
         <item name="colorPrimary">#212121</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#009688</item>
-        <item name="locimg">@mipmap/ic_location_on_black_24dp</item>
-        <item name="timeimg">@mipmap/ic_schedule_black_24dp</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat">
-        <item name="locimg">@mipmap/ic_location_on_white_24dp</item>
         <item name="colorAccent">#80CBC4</item>
-        <item name="timeimg">@mipmap/ic_schedule_white_24dp</item>
     </style>
 
     <style name="AppThemeNoAB" parent="Theme.AppCompat.Light.NoActionBar">
@@ -29,7 +25,5 @@
     <style name="PopupMenu_Dark" parent="ThemeOverlay.AppCompat">
     </style>
 
-    <attr name="locimg" format="reference"/>
-    <attr name="timeimg" format="reference"/>
 
 </resources>

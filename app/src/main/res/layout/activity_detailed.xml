@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:tint="?colorAccent"
                     android:layout_gravity="center_vertical"
-                    android:src="?attr/timeimg"
+                    android:src="@mipmap/ic_schedule_white_24dp"
                     android:paddingRight="32dp"/>
 
                 <TextView
@@ -97,7 +97,7 @@
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:src="?attr/locimg"
+                    android:src="@mipmap/ic_location_on_white_24dp"
                     android:tint="?colorAccent"
                     android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"

@@ -43,7 +43,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         rv = (RecyclerView) view.findViewById(R.id.list_news);
         rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout_news);
-        swipeRefreshLayout.setColorSchemeResources(R.color.accent);
+        swipeRefreshLayout.setColorSchemeResources(R.color.accent_material_light);
         swipeRefreshLayout.setOnRefreshListener(refreshListener);
         rssItemList = new ArrayList<>();
 

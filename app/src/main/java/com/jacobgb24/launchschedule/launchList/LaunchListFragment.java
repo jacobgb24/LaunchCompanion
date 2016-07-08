@@ -29,6 +29,7 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
 
 import supportClasses.DividerItemDecoration;
 
@@ -47,7 +48,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_launchlist, viewGroup, false);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.accent);
+        swipeRefreshLayout.setColorSchemeResources(R.color.accent_material_light);
         swipeRefreshLayout.setOnRefreshListener(refreshListener);
         rv = (RecyclerView) view.findViewById(R.id.list);
         rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));

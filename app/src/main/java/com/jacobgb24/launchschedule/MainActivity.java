@@ -125,13 +125,14 @@ public class MainActivity extends AppCompatActivity {
                 client = null;
             }
         };
-        isChromeCustomTabsSupported();
-        CustomTabsClient.bindCustomTabsService(MainActivity.this, tabsPackage, customTabsServiceConnection);
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
-        customTabsIntent = builder.build();
-        builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_arrow_back_white_24dp));
-        builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
-        customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
+        if(isChromeCustomTabsSupported()) {
+            CustomTabsClient.bindCustomTabsService(MainActivity.this, tabsPackage, customTabsServiceConnection);
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
+            customTabsIntent = builder.build();
+            builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_arrow_back_white_24dp));
+            builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
+            customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
+        }
 
     }
 
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isChromeCustomTabsSupported() {
         PackageManager pm = context.getPackageManager();
-        Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.glideLicense-url.com"));
+        Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://test.com"));
         List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(activityIntent, 0);
         List<String> packagesSupportingCustomTabs = new ArrayList<>();
         for (ResolveInfo info : resolvedActivityList) {

@@ -68,7 +68,7 @@ public class DetailedActivity extends AppCompatActivity {
         timeItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (launch.hasCal() || !(launch.getCal().getTimeInMillis() < System.currentTimeMillis())) {
+                if (launch.hasCal() && !(launch.getCal().getTimeInMillis() < System.currentTimeMillis())) {
 
                     if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(DetailedActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, 16);

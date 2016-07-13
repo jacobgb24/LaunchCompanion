@@ -68,8 +68,9 @@ public class DetailedActivity extends AppCompatActivity {
         timeItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("CAL=", Long.toString(launch.getCal().getTimeInMillis()));
                 if (launch.hasCal() && !(launch.getCal().getTimeInMillis() < System.currentTimeMillis())) {
-
+                    Log.e("ATTEMP", "cal");
                     if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(DetailedActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, 16);
                     } else
@@ -150,7 +151,6 @@ public class DetailedActivity extends AppCompatActivity {
     }
 
     private void createReminder() {
-        Log.e("worked", "ds");
         try {
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)

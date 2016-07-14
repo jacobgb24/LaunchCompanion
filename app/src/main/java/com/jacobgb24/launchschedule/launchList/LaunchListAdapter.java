@@ -18,6 +18,7 @@ package com.jacobgb24.launchschedule.launchList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -27,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.R;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import java.util.List;
 public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.ViewHolder> {
     private List<Launch> list = new ArrayList<>();
     private Activity activity;
+    private FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(activity.getApplicationContext());
 
     public LaunchListAdapter(List<Launch> list, Activity a) {
         this.list = list;
@@ -68,6 +71,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
                 Intent intent = new Intent(activity, DetailedActivity.class);
                 intent.putExtra("LAUNCH_OBJ", (Parcelable) list.get(pos));
                 activity.startActivity(intent);
+
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, list.get(pos).getMission());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Detailed Activity");
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             }
         });
 

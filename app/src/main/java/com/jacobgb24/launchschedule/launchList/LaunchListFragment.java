@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
 
@@ -29,7 +30,6 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes;
 
 import supportClasses.DividerItemDecoration;
 
@@ -133,6 +133,8 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
                 strdata = strdata.replaceAll("\r\n", "\n");
                 input.close();
             } catch (IOException e) {
+                FirebaseCrash.log("Launch list error");
+                FirebaseCrash.report(e);
                 e.printStackTrace();
             }
             return strdata;

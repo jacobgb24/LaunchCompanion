@@ -1,8 +1,8 @@
 package com.jacobgb24.launchschedule.launchList;
 
 import android.text.format.DateFormat;
-import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.jacobgb24.launchschedule.MainActivity;
 
 import java.text.ParseException;
@@ -147,6 +147,8 @@ class DataParser {
                 }
                 list.add(launch);
             } catch (Exception e) {
+                FirebaseCrash.log("Error parsing launch");
+                FirebaseCrash.report(e);
                 e.printStackTrace();
             }
         }
@@ -172,12 +174,9 @@ class DataParser {
             String date = launch.getDate().replaceAll("\\?|[0-9]{1,2}/|NET|\\.", "").trim();
             String time = launch.getTime();
             if (hasCal) {
-                if (time.contains("-")) {
-                    Log.e("initial time", time);
+                if (time.contains("-"))
                     time = time.substring(0, time.indexOf("-")) + " " + time.substring(time.lastIndexOf(" ")+1, time.length());
 
-                }
-                Log.e("time", "" + time);
                 cal.setTime(sdf.parse(time + " " + date + " " + year));
             }
             Calendar cal2 = Calendar.getInstance();

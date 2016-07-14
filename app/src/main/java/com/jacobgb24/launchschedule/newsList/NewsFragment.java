@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
 
@@ -90,6 +91,8 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 rssItemList.clear();
                 rssItemList = FeedParser.parse(inputStream);
             } catch (Exception e) {
+                FirebaseCrash.log("Article loading error");
+                FirebaseCrash.report(e);
                 e.printStackTrace();
             }
             return null;

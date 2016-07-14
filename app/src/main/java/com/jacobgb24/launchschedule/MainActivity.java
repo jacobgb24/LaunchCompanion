@@ -1,19 +1,3 @@
-/*
- * Copyright 2013 Mark Injerd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.jacobgb24.launchschedule;
 
 import android.content.ComponentName;
@@ -39,6 +23,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.launchList.LaunchListFragment;
 import com.jacobgb24.launchschedule.newsList.NewsArticleActivity;
 import com.jacobgb24.launchschedule.newsList.NewsFragment;
@@ -50,7 +35,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static Context context;
-    private boolean DarkThemeUsed=false;
+    private boolean darkThemeUsed=false;
+    private FirebaseAnalytics firebaseAnalytics;
     private CustomTabsClient client;
     private CustomTabsSession customTabsSession;
     private CustomTabsIntent customTabsIntent;
@@ -61,17 +47,18 @@ public class MainActivity extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_darkTheme", false)) {
             setTheme(R.style.AppThemeDarkNoAB);
-            DarkThemeUsed=true;
+            darkThemeUsed=true;
         }
         else
             setTheme(R.style.AppThemeNoAB);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MainActivity.context = getApplicationContext();
-
+        firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
+        recordUserProps();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(DarkThemeUsed)
+        if(darkThemeUsed)
             toolbar.setPopupTheme(R.style.PopupMenu_Dark);
         setSupportActionBar(toolbar);
         TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
@@ -167,5 +154,12 @@ public class MainActivity extends AppCompatActivity {
         }
         else
             return false;
+    }
+
+    private void recordUserProps(){
+        firebaseAnalytics.setUserProperty("setting_dark_theme", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_darkTheme", false));
+        firebaseAnalytics.setUserProperty("setting_disable_images", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_disImg", false));
+        firebaseAnalytics.setUserProperty("setting_disable_cct", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noCustTabs", false));
+        firebaseAnalytics.setUserProperty("cct_supported", ""+isChromeCustomTabsSupported());
     }
 }

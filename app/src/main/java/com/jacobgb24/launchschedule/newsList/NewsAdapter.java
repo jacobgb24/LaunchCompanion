@@ -1,6 +1,7 @@
 package com.jacobgb24.launchschedule.newsList;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.MainActivity;
 import com.jacobgb24.launchschedule.R;
 
@@ -23,6 +25,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<FeedParser.Entry> list = new ArrayList<>();
     private Activity activity;
+    private FirebaseAnalytics firebaseAnalytics= FirebaseAnalytics.getInstance(activity.getApplicationContext());
 
     public NewsAdapter(List<FeedParser.Entry> list, Activity a) {
         this.list = list;
@@ -51,6 +54,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 ((MainActivity)activity).loadURL(list.get(pos).getLink());
+
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, list.get(pos).getLink());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "News Activity");
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             }
         });
 

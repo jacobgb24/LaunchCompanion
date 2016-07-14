@@ -12,7 +12,6 @@ import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
 
@@ -34,12 +34,14 @@ public class DetailedActivity extends AppCompatActivity {
     private Launch launch;
     private boolean hasCountdown = false;
     private CountDownTimer countDownTimer;
+    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_darkTheme", false))
             setTheme(R.style.AppThemeDark);
         super.onCreate(savedInstanceState);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         setContentView(R.layout.activity_detailed);
         Intent i = getIntent();
         launch = i.getParcelableExtra("LAUNCH_OBJ");
@@ -68,13 +70,17 @@ public class DetailedActivity extends AppCompatActivity {
         timeItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("CAL=", Long.toString(launch.getCal().getTimeInMillis()));
                 if (launch.hasCal() && !(launch.getCal().getTimeInMillis() < System.currentTimeMillis())) {
-                    Log.e("ATTEMP", "cal");
                     if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(DetailedActivity.this, new String[]{Manifest.permission.READ_CALENDAR}, 16);
-                    } else
+                    }
+                    else {
                         createReminder();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, launch.getMission());
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Reminder");
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                    }
                 }
             }
         });
@@ -82,6 +88,10 @@ public class DetailedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, launch.getMission());
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "View Location");
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                     startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + launch.getLocation())));
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Could not open map", Toast.LENGTH_SHORT).show();
@@ -155,7 +165,6 @@ public class DetailedActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, launch.getCal().getTimeInMillis())
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, launch.getCal().getTimeInMillis())
                     .putExtra(CalendarContract.Events.TITLE, launch.getMission() + " launch")
                     .putExtra(CalendarContract.Events.EVENT_LOCATION, launch.getLocation())
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);

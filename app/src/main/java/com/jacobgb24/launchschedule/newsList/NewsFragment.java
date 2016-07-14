@@ -90,6 +90,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 e.printStackTrace();
                 FirebaseCrash.log("Error loading articles");
                 FirebaseCrash.report(e);
+
             }
             return null;
         }

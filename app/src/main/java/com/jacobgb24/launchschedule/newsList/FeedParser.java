@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 class FeedParser {
@@ -87,11 +88,11 @@ class FeedParser {
                     link = tempLink;
                 }
             } else if (name.equals("pubDate")) {
-                SimpleDateFormat sdf = new SimpleDateFormat();
-                sdf.applyPattern("E, d MMM yyyy");
-                Date date = sdf.parse(readBasicTag(parser, "pubDate"));
-                sdf.applyPattern("d MMM, yyyy");
-                publishedOn = sdf.format(date);
+                    SimpleDateFormat sdf = new SimpleDateFormat("", Locale.ENGLISH);
+                    sdf.applyPattern("E, d MMM yyyy");
+                    Date date = sdf.parse(readBasicTag(parser, "pubDate"));
+                    sdf.applyPattern("d MMM, yyyy");
+                    publishedOn = sdf.format(date);
             } else {
                 skip(parser);
             }
@@ -100,11 +101,11 @@ class FeedParser {
     }
 
     private static String readBasicTag(XmlPullParser parser, String tag)
-            throws IOException, XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, ns, tag);
-        String result = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, tag);
-        return result;
+        throws IOException, XmlPullParserException {
+            parser.require(XmlPullParser.START_TAG, ns, tag);
+            String result = readText(parser);
+            parser.require(XmlPullParser.END_TAG, ns, tag);
+            return result;
     }
 
     private static String readImgTag(XmlPullParser parser, String tag)

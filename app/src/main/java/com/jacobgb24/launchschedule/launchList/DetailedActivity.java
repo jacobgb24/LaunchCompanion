@@ -76,9 +76,6 @@ public class DetailedActivity extends AppCompatActivity {
                     }
                     else {
                         createReminder();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, launch.getMission());
-                        firebaseAnalytics.logEvent("Create Reminder", bundle);
                     }
                 }
             }
@@ -164,11 +161,15 @@ public class DetailedActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, launch.getCal().getTimeInMillis())
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, launch.getCal().getTimeInMillis())
                     .putExtra(CalendarContract.Events.TITLE, launch.getMission() + " launch")
                     .putExtra(CalendarContract.Events.EVENT_LOCATION, launch.getLocation())
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
             Cursor cursor = CalendarContract.Instances.query(getContentResolver(), null, launch.getCal().getTimeInMillis(), launch.getCal().getTimeInMillis());
             if (cursor.getCount() < 1) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, launch.getMission());
+                firebaseAnalytics.logEvent("Create Reminder", bundle);
                 startActivity(intent);
             } else
                 Toast.makeText(getApplicationContext(), "Reminder already created", Toast.LENGTH_SHORT).show();

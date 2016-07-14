@@ -57,7 +57,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, list.get(pos).getLink());
-                firebaseAnalytics.logEvent("Opened News Article", bundle);
+                firebaseAnalytics.logEvent("opened_news_article", bundle);
             }
         });
 

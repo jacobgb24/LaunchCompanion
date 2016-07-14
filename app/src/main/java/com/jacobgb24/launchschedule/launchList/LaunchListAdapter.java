@@ -74,7 +74,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
 
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, list.get(pos).getMission());
-                firebaseAnalytics.logEvent("Opened Detailed Activity", bundle);
+                firebaseAnalytics.logEvent("opened_detailed_activity", bundle);
             }
         });
 

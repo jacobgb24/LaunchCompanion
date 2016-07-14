@@ -86,7 +86,7 @@ public class DetailedActivity extends AppCompatActivity {
                 try {
                     Bundle bundle = new Bundle();
                     bundle.putString(FirebaseAnalytics.Param.ITEM_ID, launch.getMission());
-                    firebaseAnalytics.logEvent("View Location", bundle);
+                    firebaseAnalytics.logEvent("view_location", bundle);
                     startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + launch.getLocation())));
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Could not open map", Toast.LENGTH_SHORT).show();
@@ -169,7 +169,7 @@ public class DetailedActivity extends AppCompatActivity {
             if (cursor.getCount() < 1) {
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, launch.getMission());
-                firebaseAnalytics.logEvent("Create Reminder", bundle);
+                firebaseAnalytics.logEvent("create_reminder", bundle);
                 startActivity(intent);
             } else
                 Toast.makeText(getApplicationContext(), "Reminder already created", Toast.LENGTH_SHORT).show();

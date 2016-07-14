@@ -58,7 +58,7 @@ class FeedParser {
 
             String name = parser.getName();
             if (name.equals("item"))
-                entries.add(readEntry(parser));
+                    entries.add(readEntry(parser));
             else
                 skip(parser);
         }

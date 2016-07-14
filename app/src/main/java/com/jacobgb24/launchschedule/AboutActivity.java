@@ -23,7 +23,7 @@ public class AboutActivity extends AppCompatActivity {
             setTheme(R.style.AppThemeDark);
         super.onCreate(savedInstanceState);
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
-        firebaseAnalytics.logEvent("Settings Opened", new Bundle());
+        firebaseAnalytics.logEvent("about_opened", new Bundle());
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new AboutFragment())
                 .commit();

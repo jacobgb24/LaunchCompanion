@@ -34,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
             setTheme(R.style.AppThemeDark);
         super.onCreate(savedInstanceState);
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
-        firebaseAnalytics.logEvent("About Opened", new Bundle());
+        firebaseAnalytics.logEvent("settings_opened", new Bundle());
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();

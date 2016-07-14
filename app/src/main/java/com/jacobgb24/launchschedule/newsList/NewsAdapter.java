@@ -25,7 +25,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<FeedParser.Entry> list = new ArrayList<>();
     private Activity activity;
-    private FirebaseAnalytics firebaseAnalytics= FirebaseAnalytics.getInstance(activity.getApplicationContext());
+    private FirebaseAnalytics firebaseAnalytics;
 
     public NewsAdapter(List<FeedParser.Entry> list, Activity a) {
         this.list = list;
@@ -57,8 +57,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, list.get(pos).getLink());
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "News Activity");
-                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                firebaseAnalytics.logEvent("Opened News Article", bundle);
             }
         });
 
@@ -67,6 +66,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_list_item, viewGroup, false);
+        firebaseAnalytics= FirebaseAnalytics.getInstance(activity.getApplicationContext());
         return new ViewHolder(itemView);
     }
 

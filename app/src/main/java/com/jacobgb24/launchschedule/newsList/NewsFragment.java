@@ -71,12 +71,8 @@ public class NewsFragment extends android.support.v4.app.Fragment {
             swipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {
-                    try {
                         swipeRefreshLayout.setRefreshing(true);
                         new DownloadFile().execute("http://spacenews.com/feed/");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 }
             });
         }
@@ -91,9 +87,9 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 rssItemList.clear();
                 rssItemList = FeedParser.parse(inputStream);
             } catch (Exception e) {
-                FirebaseCrash.log("Article loading error");
-                FirebaseCrash.report(e);
                 e.printStackTrace();
+                FirebaseCrash.log("Error loading articles");
+                FirebaseCrash.report(e);
             }
             return null;
         }

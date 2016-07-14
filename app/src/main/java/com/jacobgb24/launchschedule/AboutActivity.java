@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 /**
  * Created by jacob_000 on 7/29/2015.
  */
@@ -20,6 +22,8 @@ public class AboutActivity extends AppCompatActivity {
         if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_darkTheme", false))
             setTheme(R.style.AppThemeDark);
         super.onCreate(savedInstanceState);
+        FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
+        firebaseAnalytics.logEvent("Settings Opened", new Bundle());
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new AboutFragment())
                 .commit();

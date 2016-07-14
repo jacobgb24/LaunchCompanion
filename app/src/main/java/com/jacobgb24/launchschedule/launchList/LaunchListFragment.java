@@ -74,8 +74,8 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
             swipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {
-                    swipeRefreshLayout.setRefreshing(true);
-                    new DownloadFile().execute("http://spaceflightnow.com/launch-schedule/");
+                        swipeRefreshLayout.setRefreshing(true);
+                        new DownloadFile().execute("http://spaceflightnow.com/launch-schedule/");
                 }
             });
         }
@@ -133,9 +133,9 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
                 strdata = strdata.replaceAll("\r\n", "\n");
                 input.close();
             } catch (IOException e) {
-                FirebaseCrash.log("Launch list error");
-                FirebaseCrash.report(e);
                 e.printStackTrace();
+                FirebaseCrash.log("Error loading launches");
+                FirebaseCrash.report(e);
             }
             return strdata;
         }

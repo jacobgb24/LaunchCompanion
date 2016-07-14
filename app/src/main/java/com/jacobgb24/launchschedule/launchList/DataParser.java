@@ -147,7 +147,7 @@ class DataParser {
                 }
                 list.add(launch);
             } catch (Exception e) {
-                FirebaseCrash.log("Error parsing launch");
+                FirebaseCrash.log("Error parsing launch after "+ list.get(list.size()-1).getMission());
                 FirebaseCrash.report(e);
                 e.printStackTrace();
             }

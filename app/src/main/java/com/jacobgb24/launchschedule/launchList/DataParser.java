@@ -29,6 +29,7 @@ class DataParser {
                 .replaceAll("</?span( [a-z]+=\"(?!launchdate|mission)[^\"]+\")?>|</?[BU]>|</?[aA][^>]*?>", "")
                 .replaceAll("&#8217;", "'").replaceAll("&#038;", "+").replaceAll("&amp;", "+")
                 .replaceAll("</p>", "</div>")
+                .replaceAll("\\p{So}+", "•") //replaces �
                 .replaceAll("Launch (times?|window|period):", "Launch time:");
 
 

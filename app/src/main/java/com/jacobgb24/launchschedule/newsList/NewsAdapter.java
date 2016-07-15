@@ -43,6 +43,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_list_item, viewGroup, false);
+        firebaseAnalytics= FirebaseAnalytics.getInstance(activity.getApplicationContext());
+        return new ViewHolder(itemView);
+    }
+
+    @Override
     public void onBindViewHolder(ViewHolder holder, final int pos) {
         holder.newsTitle.setText(list.get(pos).getTitle());
         holder.newsDate.setText(list.get(pos).getPublished());
@@ -60,14 +67,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 firebaseAnalytics.logEvent("opened_news_article", bundle);
             }
         });
-
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_list_item, viewGroup, false);
-        firebaseAnalytics= FirebaseAnalytics.getInstance(activity.getApplicationContext());
-        return new ViewHolder(itemView);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,6 +1,7 @@
 package com.jacobgb24.launchschedule;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -44,7 +45,18 @@ public class AboutActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     count++;
                     if (count == 8) {
-                        Toast.makeText(getActivity().getApplicationContext(), "This is a lazy easter egg ¯\\_(シ)_/¯", Toast.LENGTH_SHORT).show();
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        if(PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("pref_easteregg", false)) {
+                            editor.putBoolean("pref_easteregg", false);
+                            Toast.makeText(getActivity().getApplicationContext(), "Easter egg disabled", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            editor.putBoolean("pref_easteregg", true);
+                            Toast.makeText(getActivity().getApplicationContext(), "Easter egg enabled", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity().getApplicationContext(), "To disable, tap on the version 8 times", Toast.LENGTH_SHORT).show();
+                        }
+                        editor.commit();
                         count = 0;
                     }
                     return false;

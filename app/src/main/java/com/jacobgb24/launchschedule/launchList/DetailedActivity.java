@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
 
@@ -35,6 +36,7 @@ public class DetailedActivity extends AppCompatActivity {
     private boolean hasCountdown = false;
     private CountDownTimer countDownTimer;
     private FirebaseAnalytics firebaseAnalytics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,8 +121,16 @@ public class DetailedActivity extends AppCompatActivity {
                     imgMinotaur = "http://i.imgur.com/bdQWcx1.jpg",
                     imgAntares = "http://i.imgur.com/6k0cDUv.jpg";
 
-                if (r.contains("Falcon"))
-                    Glide.with(this).load(imgFalcon9).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
+                if (r.contains("Falcon")) {
+                    if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_easteregg", false)) {
+                        Glide.with(this).load("https://thumbs.gfycat.com/HandyCleverAustralianshelduck-size_restricted.gif").asGif().placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
+                        Toast.makeText(getApplicationContext(), "You found the easter egg!", Toast.LENGTH_SHORT).show();
+                        Bundle bundle = new Bundle();
+                        firebaseAnalytics.logEvent("easteregg_found", bundle);
+                    }
+                    else
+                        Glide.with(this).load(imgFalcon9).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
+                }
                 else if (r.contains("Soyuz"))
                     Glide.with(this).load(imgSoyuz).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
                 else if (r.contains("Rockot"))
@@ -174,6 +184,8 @@ public class DetailedActivity extends AppCompatActivity {
             } else
                 Toast.makeText(getApplicationContext(), "Reminder already created", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
+            FirebaseCrash.log("Error making reminder");
+            FirebaseCrash.report(e);
             e.printStackTrace();
         }
     }

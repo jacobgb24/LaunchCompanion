@@ -1,5 +1,7 @@
 package com.jacobgb24.launchschedule.launchList;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -7,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +44,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
     private LaunchListAdapter adapter;
     private List<Launch> launchList;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private SearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         adapter = new LaunchListAdapter(launchList, getActivity());
+        adapter.setHasStableIds(true);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -83,6 +88,9 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onPause() {
+        if (searchView.isShown()) {
+            searchView.clearFocus();
+        }
         super.onPause();
         try {
             FileOutputStream fileOut = new FileOutputStream(new File(getActivity().getFilesDir(), "Launch Data"));
@@ -164,9 +172,40 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
             super.onPostExecute(result);
         }
     }
+    SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextChange(String input) {
+            final List<Launch> filteredModelList = filter(launchList, input);
+            adapter.setFilter(filteredModelList);
+
+            return true;
+        }
+
+        public boolean onQueryTextSubmit(String query) {
+            searchView.clearFocus();
+            return false;
+        }
+    };
+    private List<Launch> filter(List<Launch> list, String query) {
+        query = query.toLowerCase();
+
+        final List<Launch> filteredModelList = new ArrayList<>();
+        for (Launch launch : list) {
+            final String text = launch.getMission().toLowerCase();
+            if (text.contains(query)) {
+                filteredModelList.add(launch);
+            }
+        }
+        return filteredModelList;
+    }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_launch_fragment, menu);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setOnQueryTextListener(listener);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -184,4 +223,5 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
         }
         return false;
     }
+
 }

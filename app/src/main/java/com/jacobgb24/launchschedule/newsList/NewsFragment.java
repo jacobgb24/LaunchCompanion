@@ -55,6 +55,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         adapter = new NewsAdapter(rssItemList, getActivity());
+        adapter.setHasStableIds(true);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -115,7 +116,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         }
     }
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_news_fragment, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -126,7 +127,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
-            case R.id.open_sfn:
+            case R.id.open_sn:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://spacenews.com/segment/news"));
                 startActivity(browserIntent);
                 return true;

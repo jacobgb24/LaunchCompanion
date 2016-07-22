@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item android:id="@+id/action_search"
+        android:title="Search"
+        android:icon="@mipmap/ic_search_white_24dp"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+    <item android:id="@+id/open_sfn" android:title="View in browser"/>
+    <item android:id="@+id/action_settings" android:title="Settings"
+        app:showAsAction="never" />
+</menu>

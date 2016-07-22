@@ -101,4 +101,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
             time = (TextView) v.findViewById(R.id.time);
         }
     }
+    public void setFilter(List<Launch> launchList) {
+        list = new ArrayList<>();
+        list.addAll(launchList);
+        notifyDataSetChanged();
+    }
 }

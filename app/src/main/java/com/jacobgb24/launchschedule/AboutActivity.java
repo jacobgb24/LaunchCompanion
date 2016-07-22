@@ -85,14 +85,19 @@ public class AboutActivity extends AppCompatActivity {
             privacypolicy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    WebView view = new WebView(getActivity());
-                    view.loadUrl("https://jacobgb24.github.io/Launch-Companion/");
-                    view.getSettings().setJavaScriptEnabled(false);
-                    AlertDialog alertDialog= new AlertDialog.Builder(getActivity())
-                            .setView(view)
-                            .setPositiveButton("ok", null)
-                            .create();
-                    alertDialog.show();
+                    try {
+                        WebView view = new WebView(getActivity());
+                        view.loadUrl("https://jacobgb24.github.io/Launch-Companion/");
+                        view.getSettings().setJavaScriptEnabled(false);
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                                .setView(view)
+                                .setPositiveButton("ok", null)
+                                .create();
+                        alertDialog.show();
+                    }
+                    catch (Exception e){
+                        Toast.makeText(getActivity().getApplicationContext(), "Could not open the privacy policy", Toast.LENGTH_SHORT).show();
+                    }
                     return false;
                 }
             });

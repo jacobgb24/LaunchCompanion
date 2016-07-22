@@ -53,7 +53,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int pos) {
         holder.newsTitle.setText(list.get(pos).getTitle());
         holder.newsDate.setText(list.get(pos).getPublished());
-        if (!PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext()).getBoolean("pref_disImg", false))
+        if (!PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext()).getBoolean("pref_noImages", false))
             Glide.with(activity.getApplicationContext()).load(list.get(pos).getImg()).centerCrop().override(200, 200).into(holder.newsImage);
         else
             holder.newsImage.setVisibility(View.GONE);

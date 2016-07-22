@@ -102,7 +102,7 @@ public class DetailedActivity extends AppCompatActivity {
         details.setText(launch.getDescription());
         subtitle.setText(launch.getVehicle());
 
-        if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_disImg", false)) {
+        if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noImages", false)) {
             String r = launch.getVehicle();
             String imgFalcon9 = "http://i.imgur.com/xYXarSa.jpg",
                     imgSoyuz = "http://i.imgur.com/dPKLDG1.jpg",

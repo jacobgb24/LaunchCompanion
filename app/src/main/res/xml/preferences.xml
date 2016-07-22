@@ -6,13 +6,18 @@
 			android:title="Dark Theme"
 			android:defaultValue="false" />
 		<CheckBoxPreference
-			android:key="pref_disImg"
+			android:key="pref_noImages"
 			android:title="Disable image loading"
 			android:defaultValue="false" />
 		<CheckBoxPreference
 			android:key="pref_noCustTabs"
-			android:title="Disable Chrome Custom Tabs"
-			android:summary="Load news articles normally (faster on most devices)"
+			android:title="Open articles in default view"
+			android:summary="May increase speed on older devices"
+			android:defaultValue="false" />
+		<CheckBoxPreference
+			android:key="pref_noAnalytics"
+			android:title="Disable analytics collection"
+			android:summary="See the privacy policy in About for more info"
 			android:defaultValue="false" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="Other">

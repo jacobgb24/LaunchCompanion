@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void recordUserProps(){
         firebaseAnalytics.setUserProperty("setting_dark_theme", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_darkTheme", false));
-        firebaseAnalytics.setUserProperty("setting_disable_images", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_disImg", false));
+        firebaseAnalytics.setUserProperty("setting_disable_images", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noImages", false));
         firebaseAnalytics.setUserProperty("setting_disable_cct", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noCustTabs", false));
         firebaseAnalytics.setUserProperty("cct_supported", ""+isChromeCustomTabsSupported());
     }

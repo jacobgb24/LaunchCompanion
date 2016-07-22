@@ -81,6 +81,21 @@ public class AboutActivity extends AppCompatActivity {
                     return true;
                 }
             });
+            Preference privacypolicy = findPreference("about_privacyPolicy");
+            privacypolicy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    WebView view = new WebView(getActivity());
+                    view.loadUrl("https://jacobgb24.github.io/Launch-Companion/");
+                    view.getSettings().setJavaScriptEnabled(false);
+                    AlertDialog alertDialog= new AlertDialog.Builder(getActivity())
+                            .setView(view)
+                            .setPositiveButton("ok", null)
+                            .create();
+                    alertDialog.show();
+                    return false;
+                }
+            });
             Preference images = findPreference("about_imgs");
             images.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

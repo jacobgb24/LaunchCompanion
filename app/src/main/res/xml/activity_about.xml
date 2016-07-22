@@ -7,6 +7,9 @@
         android:key="about_version"
         android:title="" />
     <Preference
+        android:key="about_privacyPolicy"
+        android:title="Privacy Policy" />
+    <Preference
         android:key="about_email"
         android:title="Email the developer" />
     </PreferenceCategory>

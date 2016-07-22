@@ -17,6 +17,7 @@
 package com.jacobgb24.launchschedule;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -78,6 +79,22 @@ public class SettingsActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         Toast.makeText(getActivity().getApplicationContext(), "Could not open store", Toast.LENGTH_SHORT).show();
                     }
+                    return true;
+                }
+            });
+            Preference analytics = findPreference("pref_noAnalytics");
+            analytics.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity().getApplicationContext());
+                    if(preferences.getBoolean("pref_noAnalytics", false)) {
+                        firebaseAnalytics.logEvent("disabled_analytics", new Bundle());
+                        firebaseAnalytics.setAnalyticsCollectionEnabled(false);
+                    }
+                    else
+                        firebaseAnalytics.setAnalyticsCollectionEnabled(true);
+
                     return true;
                 }
             });

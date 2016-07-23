@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_searchNames">
+        <item>Mission</item>
+        <item>Rocket</item>
+        <item>Location</item>
+        <item>Date</item>
+    </string-array>
+    <string-array name="pref_searchDefaults">
+        <item>Mission</item>
+        <item>Rocket</item>
+
+    </string-array>
+
+</resources>

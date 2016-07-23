@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,7 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import supportClasses.DividerItemDecoration;
 
@@ -172,32 +174,6 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
             super.onPostExecute(result);
         }
     }
-    SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextChange(String input) {
-            final List<Launch> filteredModelList = filter(launchList, input);
-            adapter.setFilter(filteredModelList);
-
-            return true;
-        }
-
-        public boolean onQueryTextSubmit(String query) {
-            searchView.clearFocus();
-            return false;
-        }
-    };
-    private List<Launch> filter(List<Launch> list, String query) {
-        query = query.toLowerCase();
-
-        final List<Launch> filteredModelList = new ArrayList<>();
-        for (Launch launch : list) {
-            final String text = launch.getMission().toLowerCase();
-            if (text.contains(query)) {
-                filteredModelList.add(launch);
-            }
-        }
-        return filteredModelList;
-    }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_launch_fragment, menu);
@@ -205,7 +181,6 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
         searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setOnQueryTextListener(listener);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -223,5 +198,57 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
         }
         return false;
     }
+    SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextChange(String input) {
+            final List<Launch> filteredModelList = filter(launchList, input);
+            adapter.setFilter(filteredModelList);
 
+            return true;
+        }
+
+        public boolean onQueryTextSubmit(String query) {
+            searchView.clearFocus();
+            return false;
+        }
+    };
+    private List<Launch> filter(List<Launch> list, String query) {
+        boolean checkMission = false, checkRocket = false, checkDate = false, checkLocation = false;
+        query = query.toLowerCase();
+        Set<String> settings = PreferenceManager.getDefaultSharedPreferences(getActivity()).getStringSet("pref_searchParams", null);
+        String[] values = settings.toArray(new String[settings.size()]);
+        final List<Launch> filteredModelList = new ArrayList<>();
+        for (String param : values) {
+            switch (param) {
+                case "Mission":
+                    checkMission = true;
+                    break;
+                case "Rocket":
+                    checkRocket = true;
+                    break;
+                case "Date":
+                    checkDate = true;
+                    break;
+                case "Location":
+                    checkLocation = true;
+                    break;
+            }
+        }
+
+        for (Launch launch : list) {
+            String mission = launch.getMission().toLowerCase();
+            String rocket = launch.getVehicle().toLowerCase();
+            String location = launch.getLocation().toLowerCase();
+            String date = launch.getDate().toLowerCase();
+            if (checkMission && mission.contains(query))
+                filteredModelList.add(launch);
+            else if (checkRocket && rocket.contains(query))
+                filteredModelList.add(launch);
+            else if (checkLocation && location.contains(query))
+                filteredModelList.add(launch);
+            else if (checkDate && date.contains(query))
+                filteredModelList.add(launch);
+        }
+        return filteredModelList;
+    }
 }

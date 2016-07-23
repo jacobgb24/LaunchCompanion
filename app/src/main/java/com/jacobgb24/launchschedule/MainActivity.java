@@ -27,6 +27,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.launchList.LaunchListFragment;
 import com.jacobgb24.launchschedule.newsList.NewsArticleActivity;
 import com.jacobgb24.launchschedule.newsList.NewsFragment;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private CustomTabsSession customTabsSession;
     private CustomTabsIntent customTabsIntent;
     private String tabsPackage="";
+    private MaterialSearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,17 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(viewPager);
 
+        searchView= (MaterialSearchView) findViewById(R.id.search_view);
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition()==1 && searchView.isShown()) {
+                    searchView.closeSearch();
+                }
+                super.onTabSelected(tab);
+            }
+        });
+
     }
 
     public static class TabAdapter extends FragmentPagerAdapter {
@@ -93,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             if (position == 0) return "Schedule";
             else return "News";
         }
+
     }
     @Override
     public void onStart() {
@@ -161,5 +175,13 @@ public class MainActivity extends AppCompatActivity {
         firebaseAnalytics.setUserProperty("setting_disable_images", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noImages", false));
         firebaseAnalytics.setUserProperty("setting_disable_cct", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noCustTabs", false));
         firebaseAnalytics.setUserProperty("cct_supported", ""+isChromeCustomTabsSupported());
+    }
+    @Override
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -8,7 +8,7 @@
         android:title="" />
     <Preference
         android:key="about_privacyPolicy"
-        android:title="Privacy Policy" />
+        android:title="Privacy policy" />
     <Preference
         android:key="about_email"
         android:title="Email the developer" />
@@ -16,7 +16,7 @@
     <PreferenceCategory android:title="Images and Websites">
     <Preference
         android:key="about_imgs"
-        android:title="Image Sources" />
+        android:title="Image sources" />
         <Preference
             android:key="about_sfn"
             android:title="SpaceFlightNow.com" />

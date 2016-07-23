@@ -87,7 +87,7 @@ public class AboutActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     try {
                         WebView view = new WebView(getActivity());
-                        view.loadUrl("https://jacobgb24.github.io/Launch-Companion/");
+                        view.loadUrl("https://jacobgb24.github.io/Launch-Companion-Privacy-Policy/");
                         view.getSettings().setJavaScriptEnabled(false);
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                                 .setView(view)

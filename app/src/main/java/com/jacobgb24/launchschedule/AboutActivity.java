@@ -62,6 +62,32 @@ public class AboutActivity extends AppCompatActivity {
                     return false;
                 }
             });
+            Preference versionHistory = findPreference("about_versionHistory");
+            versionHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    try {
+                        alertDialog("https://jacobgb24.github.io/Launch-Companion/version_history", "");
+                    }
+                    catch (Exception e){
+                        Toast.makeText(getActivity().getApplicationContext(), "Could not open version history", Toast.LENGTH_SHORT).show();
+                    }
+                    return false;
+                }
+            });
+            Preference privacyPolicy = findPreference("about_privacyPolicy");
+            privacyPolicy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    try {
+                        alertDialog("https://jacobgb24.github.io/Launch-Companion/privacy_policy", "");
+                    }
+                    catch (Exception e){
+                        Toast.makeText(getActivity().getApplicationContext(), "Could not open the privacy policy", Toast.LENGTH_SHORT).show();
+                    }
+                    return false;
+                }
+            });
             Preference email = findPreference("about_email");
             email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -79,26 +105,6 @@ public class AboutActivity extends AppCompatActivity {
                         Toast.makeText(getActivity().getApplicationContext(), "Couldn't send email", Toast.LENGTH_SHORT).show();
                     }
                     return true;
-                }
-            });
-            Preference privacypolicy = findPreference("about_privacyPolicy");
-            privacypolicy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    try {
-                        WebView view = new WebView(getActivity());
-                        view.loadUrl("https://jacobgb24.github.io/Launch-Companion-Privacy-Policy/");
-                        view.getSettings().setJavaScriptEnabled(false);
-                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                                .setView(view)
-                                .setPositiveButton("ok", null)
-                                .create();
-                        alertDialog.show();
-                    }
-                    catch (Exception e){
-                        Toast.makeText(getActivity().getApplicationContext(), "Could not open the privacy policy", Toast.LENGTH_SHORT).show();
-                    }
-                    return false;
                 }
             });
             Preference images = findPreference("about_imgs");
@@ -132,14 +138,7 @@ public class AboutActivity extends AppCompatActivity {
             glide.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    WebView view = new WebView(getActivity());
-                    view.loadUrl("file:///android_asset/licenseGlide");
-                    AlertDialog alertDialog= new AlertDialog.Builder(getActivity())
-                            .setTitle("Glide")
-                            .setView(view)
-                            .setPositiveButton("ok", null)
-                            .create();
-                    alertDialog.show();
+                    alertDialog("file:///android_asset/licenseGlide", "Glide");
                     return false;
                 }
             });
@@ -147,17 +146,28 @@ public class AboutActivity extends AppCompatActivity {
             lclock.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    WebView view = new WebView(getActivity());
-                    view.loadUrl("file:///android_asset/licenseLclock");
-                    AlertDialog alertDialog= new AlertDialog.Builder(getActivity())
-                            .setTitle("L-Clock")
-                            .setView(view)
-                            .setPositiveButton("ok", null)
-                            .create();
-                    alertDialog.show();
+                    alertDialog("file:///android_asset/licenseLclock", "L-Clock");
                     return false;
                 }
             });
+            Preference mSV = findPreference("about_MSV");
+            mSV.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    alertDialog("file:///android_asset/licenseMaterialSearchView", "Material Search View");
+                    return false;
+                }
+            });
+        }
+        public void alertDialog(String url, String title){
+            WebView view = new WebView(getActivity());
+            view.loadUrl(url);
+            AlertDialog alertDialog= new AlertDialog.Builder(getActivity())
+                    .setTitle(title)
+                    .setView(view)
+                    .setPositiveButton("ok", null)
+                    .create();
+            alertDialog.show();
         }
     }
 }

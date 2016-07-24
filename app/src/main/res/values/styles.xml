@@ -44,10 +44,10 @@
         <item name="searchSuggestionBackground">@android:color/white</item>
 
         <!-- Change text color for edit text. This will also be the color of the cursor-->
-        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:textColor">@android:color/primary_text_dark</item>
 
         <!-- Change hint text color for edit text-->
-        <item name="android:textColorHint">@android:color/secondary_text_light</item>
+        <item name="android:textColorHint">@android:color/secondary_text_dark</item>
 
         <!-- Hint for edit text-->
         <item name="android:hint">@string/search_hint</item>

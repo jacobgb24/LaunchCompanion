@@ -55,7 +55,6 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         adapter = new NewsAdapter(rssItemList, getActivity());
-        adapter.setHasStableIds(true);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);

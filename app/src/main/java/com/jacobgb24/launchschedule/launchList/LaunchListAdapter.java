@@ -49,19 +49,24 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
         this.list.addAll(launchList);
 
     }
+    @Override
+    public long getItemId(int position) {
+        return list.get(position).getMission().hashCode();
+    }
 
     @Override
     public int getItemCount() {
         return list.size();
     }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, final int pos) {
         holder.mission.setText(list.get(pos).getMission());
         holder.mission.setSelected(true);
-        String test = list.get(pos).getLocation();
-        test=test.substring(test.lastIndexOf(",")+1,test.length()).trim();
+        String simpleLoc = list.get(pos).getLocation();
+        simpleLoc=simpleLoc.substring(simpleLoc.lastIndexOf(",")+1,simpleLoc.length()).trim();
 
-        holder.vehicle.setText(list.get(pos).getVehicle()+" • "+test);
+        holder.vehicle.setText(list.get(pos).getVehicle()+" • "+simpleLoc);
         holder.date.setText(list.get(pos).getDate());
         holder.time.setText(Html.fromHtml(list.get(pos).getTime()));
 

@@ -7,6 +7,9 @@
         android:key="about_version"
         android:title="" />
     <Preference
+        android:key="about_versionHistory"
+        android:title="Version history" />
+    <Preference
         android:key="about_privacyPolicy"
         android:title="Privacy policy" />
     <Preference
@@ -31,6 +34,9 @@
         <Preference
             android:key="about_glide"
             android:title="Glide" />
+        <Preference
+            android:key="about_MSV"
+            android:title="Material Search View" />
     </PreferenceCategory>
 
 </PreferenceScreen>

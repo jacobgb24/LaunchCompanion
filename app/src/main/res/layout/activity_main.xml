@@ -11,17 +11,18 @@
         <FrameLayout
             android:id="@+id/toolbar_container"
             android:layout_width="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways"
             android:layout_height="wrap_content">
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:id="@+id/toolbar"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
+                style="@style/MaterialSearchViewStyle"
                 android:layout_height="wrap_content" />
         </FrameLayout>
         <android.support.design.widget.TabLayout

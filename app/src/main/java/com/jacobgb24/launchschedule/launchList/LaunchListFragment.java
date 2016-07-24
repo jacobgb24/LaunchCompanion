@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 
 import supportClasses.DividerItemDecoration;
 
+
 /**
  * Created by jacob_000 on 9/15/2015.
  */
@@ -198,7 +199,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
         public boolean onQueryTextChange(String input) {
             final List<Launch> filteredModelList = filter(launchList, input);
             adapter.setFilter(filteredModelList);
-
+            rv.scrollToPosition(0);
             return true;
         }
 
@@ -231,13 +232,15 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
         }
 
         for (Launch launch : list) {
+            String simpleLoc = launch.getLocation();
+            simpleLoc=simpleLoc.substring(simpleLoc.lastIndexOf(",")+1,simpleLoc.length()).trim();
             // regex to match the start of words
             Pattern p = Pattern.compile("\\b" + Pattern.quote(query.toString()), Pattern.CASE_INSENSITIVE) ;
             if(checkMission && p.matcher(launch.getMission()).find())
                 filteredModelList.add(launch);
             else if(checkRocket && p.matcher(launch.getVehicle()).find())
                 filteredModelList.add(launch);
-            else if(checkLocation && p.matcher(launch.getLocation()).find())
+            else if(checkLocation && p.matcher(simpleLoc).find())
                 filteredModelList.add(launch);
             else if(checkDate && p.matcher(launch.getDate()).find())
                 filteredModelList.add(launch);

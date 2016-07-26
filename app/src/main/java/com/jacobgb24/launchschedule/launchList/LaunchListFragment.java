@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import supportClasses.DividerItemDecoration;
+import util.DividerItemDecoration;
 
 
 /**
@@ -65,7 +65,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         adapter = new LaunchListAdapter(launchList, getActivity());
-        adapter.setHasStableIds(true);
+       // adapter.setHasStableIds(true); //adds animation which looks bad with divider item
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -117,7 +117,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
     }
 
     private void toast(final String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     private class DownloadFile extends AsyncTask<String, Integer, String> {
@@ -194,6 +194,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
         }
         return false;
     }
+
     MaterialSearchView.OnQueryTextListener listener = new MaterialSearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextChange(String input) {

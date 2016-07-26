@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import supportClasses.DividerItemDecoration;
+import util.DividerItemDecoration;
 
 /**
  * Created by jacob_000 on 9/16/2015.

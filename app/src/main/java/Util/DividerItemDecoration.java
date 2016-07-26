@@ -1,4 +1,4 @@
-package supportClasses;
+package util;
 
 /**
  * Created by Jacob on 6/25/16.
@@ -58,7 +58,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void onDraw(Canvas c, RecyclerView parent) {
+    public void onDrawOver(Canvas c, RecyclerView parent) {
         if (mOrientation == VERTICAL_LIST) {
             drawVertical(c, parent);
         } else {

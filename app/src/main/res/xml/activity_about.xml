@@ -2,41 +2,41 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
-    <PreferenceCategory android:title="Info">
+    <PreferenceCategory android:title="@string/about_header_info">
     <Preference
         android:key="about_version"
         android:title="" />
     <Preference
         android:key="about_versionHistory"
-        android:title="Version history" />
+        android:title="@string/about_versionhist" />
     <Preference
         android:key="about_privacyPolicy"
-        android:title="Privacy policy" />
+        android:title="@string/about_privacypol" />
     <Preference
         android:key="about_email"
-        android:title="Email the developer" />
+        android:title="@string/about_email" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Images and Websites">
+    <PreferenceCategory android:title="@string/about_header_imgwebsites">
     <Preference
         android:key="about_imgs"
-        android:title="Image sources" />
+        android:title="@string/about_imgsources" />
         <Preference
             android:key="about_sfn"
-            android:title="SpaceFlightNow.com" />
+            android:title="@string/about_sfn" />
         <Preference
             android:key="about_sn"
-            android:title="SpaceNews.com" />
+            android:title="@string/about_sn" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Licenses">
+    <PreferenceCategory android:title="@string/about_header_licenses">
         <Preference
             android:key="about_lclock"
-            android:title="L-Clock"/>
+            android:title="@string/about_lclock"/>
         <Preference
             android:key="about_glide"
-            android:title="Glide" />
+            android:title="@string/about_glide" />
         <Preference
             android:key="about_MSV"
-            android:title="Material Search View" />
+            android:title="@string/about_msv" />
     </PreferenceCategory>
 
 </PreferenceScreen>

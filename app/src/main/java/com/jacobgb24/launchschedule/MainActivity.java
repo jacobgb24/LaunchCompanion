@@ -1,36 +1,19 @@
 package com.jacobgb24.launchschedule;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.customtabs.CustomTabsClient;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.customtabs.CustomTabsService;
-import android.support.customtabs.CustomTabsServiceConnection;
-import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.jacobgb24.launchschedule.launchList.LaunchListFragment;
-import com.jacobgb24.launchschedule.newsList.NewsArticleActivity;
-import com.jacobgb24.launchschedule.newsList.NewsFragment;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import java.util.ArrayList;
-import java.util.List;
+import util.ChromeCustomTabs;
+import util.CustomViewPager;
+import util.TabAdapter;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,10 +21,6 @@ public class MainActivity extends AppCompatActivity {
     public static Context context;
     private boolean darkThemeUsed=false;
     private FirebaseAnalytics firebaseAnalytics;
-    private CustomTabsClient client;
-    private CustomTabsSession customTabsSession;
-    private CustomTabsIntent customTabsIntent;
-    private String tabsPackage="";
     private MaterialSearchView searchView;
 
     @Override
@@ -54,28 +33,43 @@ public class MainActivity extends AppCompatActivity {
         else
             setTheme(R.style.AppThemeNoAB);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         MainActivity.context = getApplicationContext();
         firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         recordUserProps();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(darkThemeUsed)
             toolbar.setPopupTheme(R.style.PopupMenu_Dark);
         setSupportActionBar(toolbar);
         TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        final CustomViewPager viewPager = (CustomViewPager) findViewById(R.id.viewpager);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         viewPager.setAdapter(tabAdapter);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(viewPager);
 
         searchView= (MaterialSearchView) findViewById(R.id.search_view);
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
+                firebaseAnalytics.logEvent("search_opened", new Bundle());
+                viewPager.setPagingEnabled(false);
+                tabLayout.setVisibility(View.GONE);
+            }
+            @Override
+            public void onSearchViewClosed() {
+                viewPager.setPagingEnabled(true);
+                tabLayout.setVisibility(View.VISIBLE);
+            }
+        });
         tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition()==1 && searchView.isShown()) {
-                    searchView.closeSearch();
+                       //     searchView.closeSearch();
                 }
                 super.onTabSelected(tab);
             }
@@ -83,102 +77,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static class TabAdapter extends FragmentPagerAdapter {
-        public TabAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0)
-                return new LaunchListFragment();
-            else
-                return new NewsFragment();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            if (position == 0) return "Schedule";
-            else return "News";
-        }
-
-    }
     @Override
     public void onStart() {
         super.onStart();
-        CustomTabsServiceConnection customTabsServiceConnection = new CustomTabsServiceConnection() {
-            @Override
-            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-                //Pre-warming
-                client = customTabsClient;
-                client.warmup(0L);
-                customTabsSession = client.newSession(null);
-
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                client = null;
-            }
-        };
-        if(isChromeCustomTabsSupported()) {
-            CustomTabsClient.bindCustomTabsService(MainActivity.this, tabsPackage, customTabsServiceConnection);
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
-            customTabsIntent = builder.build();
-            builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_arrow_back_white_24dp));
-            builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
-            customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
-        }
-
-    }
-
-    public void loadURL(String url){
-        if(isChromeCustomTabsSupported() && !PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noCustTabs", false)) {
-            customTabsIntent.launchUrl(MainActivity.this, Uri.parse(url));
-        }
-        else {
-            Intent intent = new Intent(getApplicationContext(), NewsArticleActivity.class);
-            intent.putExtra("ARTICLE_LINK", url);
-            intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
-            startActivity(intent);
-        }
-    }
-
-    private boolean isChromeCustomTabsSupported() {
-        PackageManager pm = context.getPackageManager();
-        Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://test.com"));
-        List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(activityIntent, 0);
-        List<String> packagesSupportingCustomTabs = new ArrayList<>();
-        for (ResolveInfo info : resolvedActivityList) {
-            Intent serviceIntent = new Intent();
-            serviceIntent.setAction(CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION);
-            serviceIntent.setPackage(info.activityInfo.packageName);
-            if (pm.resolveService(serviceIntent, 0) != null) {
-                packagesSupportingCustomTabs.add(info.activityInfo.packageName);
-            }
-        }
-        if(!(packagesSupportingCustomTabs.isEmpty())) {
-            tabsPackage = packagesSupportingCustomTabs.get(0);
-            return true;
-        }
-        else
-            return false;
+        ChromeCustomTabs.customTabsWarmUp(this);
     }
 
     private void recordUserProps(){
         firebaseAnalytics.setUserProperty("setting_dark_theme", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_darkTheme", false));
         firebaseAnalytics.setUserProperty("setting_disable_images", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noImages", false));
         firebaseAnalytics.setUserProperty("setting_disable_cct", ""+PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noCustTabs", false));
-        firebaseAnalytics.setUserProperty("cct_supported", ""+isChromeCustomTabsSupported());
+        firebaseAnalytics.setUserProperty("cct_supported", ""+ChromeCustomTabs.isChromeCustomTabsSupported(this));
     }
     @Override
     public void onBackPressed() {
-        if (searchView.isSearchOpen()) {
+        if (searchView.isShown()) {
             searchView.closeSearch();
         } else {
             super.onBackPressed();

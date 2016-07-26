@@ -1,8 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+	<!-- Main -->
 	<string name="app_name">Launch Companion</string>
-	<string name="app_version">3.1</string>
+	<string name="app_version">3.2</string>
+
+
+	<!-- About activity -->
+	<string name="about_header_info">Info</string>
+	<string name="about_privacypol">Privacy policy</string>
+	<string name="about_versionhist">Version history</string>
+	<string name="about_email">Email the developer</string>
+
+	<string name="about_header_imgwebsites">Images and Websites</string>
+	<string name="about_imgsources">Image sources</string>
+	<string name="about_sfn">SpaceFlightNow.com</string>
+	<string name="about_sn">SpaceNews.com</string>
+
+	<string name="about_header_licenses">Licenses</string>
+	<string name="about_lclock">L-Clock</string>
+	<string name="about_glide">Glide</string>
+	<string name="about_msv">Material Search View</string>
+
+
+	<!--Settings -->
+	<string name="pref_header_settings">Settings</string>
+	<string name="pref_searchparams">Search Parameters</string>
+	<string name="pref_darktheme">Dark Theme</string>
+	<string name="pref_noimgs">Disable image loading</string>
+	<string name="pref_nocusttabs">Open articles in default view</string>
+	<string name="pref_nocusttabs_summary">May increase speed on older devices</string>
+	<string name="pref_analytics">Disable analytics collection</string>
+	<string name="pref_analytics_summary">See the privacy policy in About for more info</string>
+
+	<string name="pref_header_other">Other</string>
+	<string name="pref_about">About</string>
+	<string name="pref_rate">Rate App</string>
+
+
 
 
 </resources>

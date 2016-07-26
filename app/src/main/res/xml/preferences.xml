@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="Settings">
+	<PreferenceCategory android:title="@string/pref_header_settings">
 		<MultiSelectListPreference
 			android:key="pref_searchParams"
-			android:title="Search Parameters"
+			android:title="@string/pref_searchparams"
 			android:dialogTitle="Include the following in search"
 			android:entries="@array/pref_searchNames"
 			android:defaultValue="@array/pref_searchDefaults"
 			android:entryValues="@array/pref_searchNames" />
 		<CheckBoxPreference
 			android:key="pref_darkTheme"
-			android:title="Dark Theme"
+			android:title="@string/pref_darktheme"
 			android:defaultValue="false" />
 		<CheckBoxPreference
 			android:key="pref_noImages"
-			android:title="Disable image loading"
+			android:title="@string/pref_noimgs"
 			android:defaultValue="false" />
 		<CheckBoxPreference
 			android:key="pref_noCustTabs"
-			android:title="Open articles in default view"
-			android:summary="May increase speed on older devices"
+			android:title="@string/pref_nocusttabs"
+			android:summary="@string/pref_nocusttabs_summary"
 			android:defaultValue="false" />
 		<CheckBoxPreference
 			android:key="pref_noAnalytics"
-			android:title="Disable analytics collection"
-			android:summary="See the privacy policy in About for more info"
+			android:title="@string/pref_analytics"
+			android:summary="@string/pref_analytics_summary"
 			android:defaultValue="false" />
 	</PreferenceCategory>
-	<PreferenceCategory android:title="Other">
+	<PreferenceCategory android:title="@string/pref_header_other">
 		<Preference
 			android:key="pref_rate"
-			android:title="Rate App" />
+			android:title="@string/pref_rate" />
 		<Preference
 			android:key="pref_about"
-			android:title="About" />
+			android:title="@string/pref_about" />
 	</PreferenceCategory>
 </PreferenceScreen>

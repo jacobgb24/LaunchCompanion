@@ -20,8 +20,6 @@
 	<string name="about_header_licenses">Licenses</string>
 	<string name="about_lclock">L-Clock</string>
 	<string name="about_glide">Glide</string>
-	<string name="about_msv">Material Search View</string>
-
 
 	<!--Settings -->
 	<string name="pref_header_settings">Settings</string>

@@ -248,6 +248,9 @@ public class DetailedActivity extends AppCompatActivity {
                 Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
+            case android.R.id.home:
+                finish();
+                return true;
         }
         return false;
     }

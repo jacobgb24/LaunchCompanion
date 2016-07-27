@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import com.google.firebase.crash.FirebaseCrash;
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -32,8 +30,6 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 import util.DividerItemDecoration;
 
@@ -46,7 +42,6 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
     private LaunchListAdapter adapter;
     private List<Launch> launchList;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private MaterialSearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -65,7 +60,6 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         adapter = new LaunchListAdapter(launchList, getActivity());
-       // adapter.setHasStableIds(true); //adds animation which looks bad with divider item
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -174,9 +168,6 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_launch_fragment, menu);
-        searchView = (MaterialSearchView) getActivity().findViewById(R.id.search_view);
-        searchView.setMenuItem(menu.findItem(R.id.action_search));
-        searchView.setOnQueryTextListener(listener);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -191,61 +182,12 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://spaceflightnow.com/launch-schedule"));
                 startActivity(browserIntent);
                 return true;
+            case R.id.action_search:
+                Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
+                searchIntent.putExtra("list_data", (ArrayList)launchList);
+                startActivity(searchIntent);
         }
         return false;
     }
 
-    MaterialSearchView.OnQueryTextListener listener = new MaterialSearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextChange(String input) {
-            final List<Launch> filteredModelList = filter(launchList, input);
-            adapter.setFilter(filteredModelList);
-            rv.scrollToPosition(0);
-            return true;
-        }
-
-        public boolean onQueryTextSubmit(String input) {
-            searchView.hideKeyboard(getView());
-            return true;
-        }
-    };
-    private List<Launch> filter(List<Launch> list, String query) {
-        boolean checkMission = false, checkRocket = false, checkDate = false, checkLocation = false;
-        query = query.toLowerCase();
-        Set<String> settings = PreferenceManager.getDefaultSharedPreferences(getActivity()).getStringSet("pref_searchParams", null);
-        String[] values = settings.toArray(new String[settings.size()]);
-        final List<Launch> filteredModelList = new ArrayList<>();
-        for (String param : values) {
-            switch (param) {
-                case "Mission":
-                    checkMission = true;
-                    break;
-                case "Rocket":
-                    checkRocket = true;
-                    break;
-                case "Date":
-                    checkDate = true;
-                    break;
-                case "Location":
-                    checkLocation = true;
-                    break;
-            }
-        }
-
-        for (Launch launch : list) {
-            String simpleLoc = launch.getLocation();
-            simpleLoc=simpleLoc.substring(simpleLoc.lastIndexOf(",")+1,simpleLoc.length()).trim();
-            // regex to match the start of words
-            Pattern p = Pattern.compile("\\b" + Pattern.quote(query.toString()), Pattern.CASE_INSENSITIVE) ;
-            if(checkMission && p.matcher(launch.getMission()).find())
-                filteredModelList.add(launch);
-            else if(checkRocket && p.matcher(launch.getVehicle()).find())
-                filteredModelList.add(launch);
-            else if(checkLocation && p.matcher(simpleLoc).find())
-                filteredModelList.add(launch);
-            else if(checkDate && p.matcher(launch.getDate()).find())
-                filteredModelList.add(launch);
-        }
-        return filteredModelList;
-    }
 }

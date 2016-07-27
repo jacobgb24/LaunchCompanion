@@ -8,33 +8,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <FrameLayout
-            android:id="@+id/toolbar_container"
+        <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
+            android:id="@+id/toolbar"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:id="@+id/toolbar"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-            <com.miguelcatalan.materialsearchview.MaterialSearchView
-                android:id="@+id/search_view"
-                android:layout_width="match_parent"
-                style="@style/MaterialSearchViewStyle"
-
-                android:layout_height="wrap_content" />
-        </FrameLayout>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
             android:id="@+id/tablayout"
-            android:animateLayoutChanges="true"
             android:layout_height="wrap_content" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <util.CustomViewPager
+    <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

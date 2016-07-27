@@ -150,14 +150,7 @@ public class AboutActivity extends AppCompatActivity {
                     return false;
                 }
             });
-            Preference mSV = findPreference("about_MSV");
-            mSV.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    alertDialog("file:///android_asset/licenseMaterialSearchView", "Material Search View");
-                    return false;
-                }
-            });
+
         }
         public void alertDialog(String url, String title){
             WebView view = new WebView(getActivity());

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.R;
 
 import java.util.ArrayList;
@@ -58,6 +59,8 @@ public class SearchActivity extends AppCompatActivity {
 
         search.addTextChangedListener(new TextListener());
 
+        FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
+        firebaseAnalytics.logEvent("search_opened", new Bundle());
     }
 
     private class TextListener implements TextWatcher{

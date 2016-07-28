@@ -123,7 +123,7 @@ public class DetailedActivity extends AppCompatActivity {
 
                 if (r.contains("Falcon")) {
                     if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_easteregg", false)) {
-                        Glide.with(this).load("https://thumbs.gfycat.com/HandyCleverAustralianshelduck-size_restricted.gif").asGif().placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
+                        Glide.with(this).load("https://thumbs.gfycat.com/HandyCleverAustralianshelduck-size_restricted.gif").asGif().error(R.drawable.defaultimg).into(imageView);
                         Toast.makeText(getApplicationContext(), "You found the easter egg!", Toast.LENGTH_SHORT).show();
                         Bundle bundle = new Bundle();
                         firebaseAnalytics.logEvent("easteregg_found", bundle);

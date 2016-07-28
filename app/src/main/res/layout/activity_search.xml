@@ -25,7 +25,7 @@
             android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLines="1"
-            android:paddingLeft="2dp"
+            android:paddingLeft="16dp"
             android:singleLine="true"
             android:textColor="@android:color/primary_text_dark"
             android:textColorHint="@android:color/secondary_text_dark" />

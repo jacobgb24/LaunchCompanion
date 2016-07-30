@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.DividerItemDecoration;
+import util.Util;
 
 
 /**
@@ -135,8 +136,10 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
                 input.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                FirebaseCrash.log("Error loading launches");
-                FirebaseCrash.report(e);
+                if(Util.isNetworkConnected(getActivity())) {
+                    FirebaseCrash.log("Error loading launches");
+                    FirebaseCrash.report(e);
+                }
             }
             return strdata;
         }
@@ -184,10 +187,9 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
                 return true;
             case R.id.action_search:
                 Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
-                searchIntent.putExtra("list_data", (ArrayList)launchList);
+                searchIntent.putExtra("list_data", (ArrayList) launchList);
                 startActivity(searchIntent);
         }
         return false;
     }
-
 }

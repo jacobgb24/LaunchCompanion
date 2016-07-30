@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.DividerItemDecoration;
+import util.Util;
 
 /**
  * Created by jacob_000 on 9/16/2015.
@@ -88,8 +89,10 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 rssItemList = FeedParser.parse(inputStream);
             } catch (Exception e) {
                 e.printStackTrace();
-                FirebaseCrash.log("Error loading articles");
-                FirebaseCrash.report(e);
+                if(Util.isNetworkConnected(getActivity())) {
+                    FirebaseCrash.log("Error loading articles");
+                    FirebaseCrash.report(e);
+                }
 
             }
             return null;

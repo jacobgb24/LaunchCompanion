@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         recordUserProps();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(darkThemeUsed)
+        if(darkThemeUsed && toolbar!=null)
             toolbar.setPopupTheme(R.style.PopupMenu_Dark);
         setSupportActionBar(toolbar);
 

@@ -11,7 +11,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.R;
@@ -44,7 +44,6 @@ public class SearchActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.list);
         search = (EditText) findViewById(R.id.search_view);
-        ImageView closeButt = (ImageView) findViewById(R.id.search_clear);
         launchList = getIntent().getParcelableArrayListExtra("list_data");
         setSupportActionBar(toolbar);
 
@@ -102,12 +101,14 @@ public class SearchActivity extends AppCompatActivity {
                     break;
             }
         }
+        if( !checkDate && !checkLocation && !checkMission && !checkRocket)
+            Toast.makeText(getApplicationContext(), "No search parameters set", Toast.LENGTH_SHORT).show();
 
         for (Launch launch : list) {
             String simpleLoc = launch.getLocation();
             simpleLoc=simpleLoc.substring(simpleLoc.lastIndexOf(",")+1,simpleLoc.length()).trim();
             // regex to match the start of words
-            Pattern p = Pattern.compile("\\b" + Pattern.quote(query.toString()), Pattern.CASE_INSENSITIVE) ;
+            Pattern p = Pattern.compile("\\b" + Pattern.quote(query), Pattern.CASE_INSENSITIVE) ;
             if(checkMission && p.matcher(launch.getMission()).find())
                 filteredModelList.add(launch);
             else if(checkRocket && p.matcher(launch.getVehicle()).find())

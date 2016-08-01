@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(tabAdapter);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(viewPager);
+
     }
 
     @Override

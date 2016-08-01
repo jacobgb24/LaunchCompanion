@@ -4,7 +4,7 @@
 		<MultiSelectListPreference
 			android:key="pref_searchParams"
 			android:title="@string/pref_searchparams"
-			android:dialogTitle="Include the following in search"
+			android:dialogTitle="Include the following in a search"
 			android:entries="@array/pref_searchNames"
 			android:defaultValue="@array/pref_searchDefaults"
 			android:entryValues="@array/pref_searchNames" />

@@ -14,9 +14,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.jacobgb24.launchschedule.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -69,9 +72,16 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            final List<Launch> filteredModelList = filter(launchList, s.toString());
-            adapter.setFilter(filteredModelList);
-            recyclerView.scrollToPosition(0);
+            try {
+                final List<Launch> filteredModelList = filter(launchList, s.toString());
+                adapter.setFilter(filteredModelList);
+                recyclerView.scrollToPosition(0);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                FirebaseCrash.log("Error searching");
+                FirebaseCrash.report(e);
+            }
 
         }
 
@@ -82,7 +92,8 @@ public class SearchActivity extends AppCompatActivity {
     private List<Launch> filter(List<Launch> list, String query) {
         boolean checkMission = false, checkRocket = false, checkDate = false, checkLocation = false;
         query = query.toLowerCase();
-        Set<String> settings = PreferenceManager.getDefaultSharedPreferences(this).getStringSet("pref_searchParams", null);
+        Set<String> defaults = new HashSet<String>(Arrays.asList(getResources().getStringArray(R.array.pref_searchDefaults)));
+        Set<String> settings = PreferenceManager.getDefaultSharedPreferences(this).getStringSet("pref_searchParams", defaults);
         String[] values = settings.toArray(new String[settings.size()]);
         final List<Launch> filteredModelList = new ArrayList<>();
         for (String param : values) {

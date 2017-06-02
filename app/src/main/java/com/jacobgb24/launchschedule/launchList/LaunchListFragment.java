@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,11 +21,13 @@ import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
@@ -77,7 +80,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void run() {
                         swipeRefreshLayout.setRefreshing(true);
-                        new DownloadFile().execute("http://spaceflightnow.com/launch-schedule/");
+                        new DownloadFile().execute("https://spaceflightnow.com/launch-schedule/");
                 }
             });
         }
@@ -134,9 +137,10 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
                 strdata = stringBuilder.toString();
                 strdata = strdata.replaceAll("\r\n", "\n");
                 input.close();
+
             } catch (IOException e) {
                 e.printStackTrace();
-                if(Util.isNetworkConnected(getActivity())) {
+                if(Util.isNetworkConnected()) {
                     FirebaseCrash.log("Error loading launches");
                     FirebaseCrash.report(e);
                 }
@@ -159,6 +163,8 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
                     (rv.getAdapter()).notifyDataSetChanged();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    FirebaseCrash.log("Error parsing launch list");
+                    FirebaseCrash.report(e);
                 }
             } else if (launchList.isEmpty())
                 toast("Error downloading data");

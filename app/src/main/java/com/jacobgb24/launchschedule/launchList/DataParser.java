@@ -1,6 +1,7 @@
 package com.jacobgb24.launchschedule.launchList;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.jacobgb24.launchschedule.MainActivity;
@@ -24,14 +25,13 @@ class DataParser {
 
         List<Launch> list = new ArrayList<>();
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        // Remove data before and after launch fragment_launchlist, remove unwanted tags, consolidate launch time identifiers
+        // Remove data before and after launch fragment_launchlist, remove unwanted tags, consolidate launch time identifier
         data = data.substring(data.indexOf("<div class=\"datename"), data.indexOf("</div>", data.lastIndexOf("missdescrip")) + 6)
                 .replaceAll("</?span( [a-z]+=\"(?!launchdate|mission)[^\"]+\")?>|</?[BU]>|</?[aA][^>]*?>", "")
                 .replaceAll("&#8217;", "'").replaceAll("&#038;", "+").replaceAll("&amp;", "+")
                 .replaceAll("</p>", "</div>")
                 .replaceAll("\\p{So}+", "•") //replaces �
                 .replaceAll("Launch (times?|window|period):", "Launch time:");
-
 
         while (data.contains("\"datename\"")) {
             try {

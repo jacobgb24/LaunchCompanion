@@ -12,6 +12,7 @@ import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -174,8 +175,9 @@ public class DetailedActivity extends AppCompatActivity {
                     .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, launch.getCal().getTimeInMillis())
                     .putExtra(CalendarContract.Events.TITLE, launch.getMission() + " launch")
                     .putExtra(CalendarContract.Events.EVENT_LOCATION, launch.getLocation())
+                    .putExtra(CalendarContract.Events.ORIGINAL_ID, launch.getMission().hashCode())
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
-            Cursor cursor = CalendarContract.Instances.query(getContentResolver(), null, launch.getCal().getTimeInMillis(), launch.getCal().getTimeInMillis());
+            Cursor cursor = CalendarContract.Instances.query(getContentResolver(), null, launch.getCal().getTimeInMillis(), launch.getCal().getTimeInMillis(), launch.getMission());
             if (cursor.getCount() < 1) {
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, launch.getMission());

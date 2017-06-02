@@ -3,7 +3,7 @@
 <resources>
 	<!-- Main -->
 	<string name="app_name">Launch Companion</string>
-	<string name="app_version">3.2.1</string>
+	<string name="app_version">3.2.3</string>
 
 
 	<!-- About activity -->

@@ -89,8 +89,9 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 rssItemList = FeedParser.parse(inputStream);
             } catch (Exception e) {
                 e.printStackTrace();
-                if(Util.isNetworkConnected(getActivity())) {
+                if(Util.isNetworkConnected()) {
                     FirebaseCrash.log("Error loading articles");
+                    FirebaseCrash.log("Number of articles: "+rssItemList.size());
                     FirebaseCrash.report(e);
                 }
 

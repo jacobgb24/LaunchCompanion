@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingTop="8dp"
+                android:paddingRight="8dp"
                 android:layout_marginTop="8dp"
                 android:paddingBottom="8dp"
                 android:id="@+id/dcard_time_item"
@@ -90,6 +91,7 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingLeft="16dp"
+                android:paddingRight="8dp"
                 android:id="@+id/dcard_loc_item"
                 android:clickable="true"
                 android:focusable="true"
@@ -108,6 +110,34 @@
                     android:textSize="14sp"
                     android:textColor="?android:textColorPrimary"
                     android:id="@+id/dcard_location"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="8dp"
+                android:id="@+id/dcard_vid_item"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/ic_play_arrow_white_24dp"
+                    android:tint="?colorAccent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="32dp"/>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="Watch webcast"
+                    android:textSize="14sp"
+                    android:textColor="?android:textColorPrimary"
+                    android:id="@+id/dcard_videourl"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>

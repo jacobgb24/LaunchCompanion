@@ -28,7 +28,7 @@ class DataParser {
         // Remove data before and after launch fragment_launchlist, remove unwanted tags, consolidate launch time identifier
         data = data.substring(data.indexOf("<div class=\"datename"), data.indexOf("</div>", data.lastIndexOf("missdescrip")) + 6)
                 .replaceAll("</?span( [a-z]+=\"(?!launchdate|mission)[^\"]+\")?>|</?[BU]>|</?[aA][^>]*?>", "")
-                .replaceAll("&#8217;", "'").replaceAll("&#038;", "+").replaceAll("&amp;", "+")
+                .replaceAll("&#8217;", "'").replaceAll("&#038;", "+").replaceAll("&amp;", "+").replaceAll("&#8221;", "\"").replaceAll("&#8220;", "\"")
                 .replaceAll("</p>", "</div>")
                 .replaceAll("\\p{So}+", "•") //replaces �
                 .replaceAll("Launch (times?|window|period):", "Launch time:");
@@ -146,6 +146,31 @@ class DataParser {
                 if (cal.get(Calendar.YEAR) > year) {
                     launch.setYear(year = cal.get(Calendar.YEAR));
                 }
+
+                //Image URL
+                launch.setImgUrl(ImgUrl(launch.getVehicle()));
+
+                //Video Stream URL
+                if(launch.getVehicle().contains("Falcon")) {
+                    launch.setVidUrl("http://www.spacex.com/webcast/");
+                    launch.setVidTitle("SpaceX webcast");
+                }
+                else if(launch.getVehicle().contains("Delta") || launch.getVehicle().contains("Atlas") || launch.getVehicle().contains("Vulcan")) {
+                    launch.setVidUrl("http://www.ulalaunch.com/webcast.aspx");
+                    launch.setVidTitle("ULA webcast");
+                }
+                else if(launch.getLocation().contains("Florida") || launch.getMission().contains("ISS") || launch.getMission().contains("Progress")) {
+                    launch.setVidUrl("https://www.nasa.gov/multimedia/nasatv/#public");
+                    launch.setVidTitle("NASA TV");
+                }
+                else if(launch.getLocation().contains("Kazakhstan")) {
+                    launch.setVidUrl("http://online.roscosmos.ru/");
+                    launch.setVidTitle("Roscosmos");
+                }
+                else
+                    launch.setVidUrl("NONE");
+
+
                 list.add(launch);
             } catch (Exception e) {
                 FirebaseCrash.log("Error parsing launch after "+ list.get(list.size()-1).getMission());
@@ -154,6 +179,59 @@ class DataParser {
             }
         }
         return list;
+    }
+
+    private static String ImgUrl(String vehicle){
+        String imgFalcon9 = "http://i.imgur.com/xYXarSa.jpg",
+                imgSoyuz = "http://i.imgur.com/dPKLDG1.jpg",
+                imgRockot = "http://i.imgur.com/DFfnUeH.jpg",
+                imgH2B = "http://i.imgur.com/bar7eAS.jpg",
+                imgLongMarch = "http://i.imgur.com/ouTHTvc.jpg",
+                imgDelta2 = "http://i.imgur.com/hjPGe44.jpg",
+                imgDelta4 = "http://i.imgur.com/OkWUZvb.jpg",
+                imgDelta4H = "http://i.imgur.com/KZ3sms3.jpg",
+                imgPSLV = "http://i.imgur.com/tJQguXE.jpg",
+                imgProton = "http://i.imgur.com/LVZh3te.jpg",
+                imgGSLV = "http://i.imgur.com/wN5kC9U.jpg",
+                imgAtlas5 = "http://i.imgur.com/GJt4xBO.jpg",
+                imgAriane5 = "http://i.imgur.com/sWDV4kh.jpg",
+                imgVega = "http://i.imgur.com/TSPzXUi.jpg",
+                imgMinotaur = "http://i.imgur.com/bdQWcx1.jpg",
+                imgAntares = "http://i.imgur.com/6k0cDUv.jpg";
+        if (vehicle.contains("Falcon"))
+            return imgFalcon9;
+        else if (vehicle.contains("Soyuz"))
+            return imgSoyuz;
+        else if (vehicle.contains("Rockot"))
+            return imgRockot;
+        else if (vehicle.contains("H-2"))
+            return imgH2B;
+        else if (vehicle.contains("Long March"))
+            return imgLongMarch;
+        else if (vehicle.contains("Delta 2") || vehicle.contains("Delta II"))
+            return imgDelta2;
+        else if ((vehicle.contains("Delta 4") || vehicle.contains("Delta IV")) && vehicle.contains("Heavy"))
+            return imgDelta4H;
+        else if (vehicle.contains("Delta 4") || vehicle.contains("Delta IV"))
+            return imgDelta4;
+        else if (vehicle.contains("PSLV"))
+            return imgPSLV;
+        else if (vehicle.contains("Proton"))
+            return imgProton;
+        else if (vehicle.contains("GSLV"))
+            return imgGSLV;
+        else if (vehicle.contains("Atlas 5"))
+            return imgAtlas5;
+        else if (vehicle.contains("Ariane 5"))
+            return imgAriane5;
+        else if (vehicle.contains("Vega"))
+            return imgVega;
+        else if (vehicle.contains("Minotaur"))
+            return imgMinotaur;
+        else if (vehicle.contains("Antares"))
+            return imgAntares;
+        else
+            return "NONE";
     }
 
     /**

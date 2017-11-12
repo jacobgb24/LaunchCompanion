@@ -63,11 +63,20 @@ public class DetailedActivity extends AppCompatActivity {
         TextView countdown = (TextView) findViewById(R.id.dcard_countdown);
         LinearLayout locItem = (LinearLayout) findViewById(R.id.dcard_loc_item);
         LinearLayout timeItem = (LinearLayout) findViewById(R.id.dcard_time_item);
+        LinearLayout videoItem = (LinearLayout) findViewById(R.id.dcard_vid_item);
+        TextView videoTitle = (TextView) findViewById(R.id.dcard_videourl);
 
         if (!launch.hasCal() || launch.getCal().getTimeInMillis() < System.currentTimeMillis()) {
             countdown.setVisibility(View.GONE);
         } else {
             setCountdown(countdown);
+        }
+
+        if(launch.getVidUrl().equals("NONE") || !launch.hasCal()){
+            videoItem.setVisibility(View.GONE);
+        }
+        else{
+            videoTitle.setText("Watch " + launch.getVidTitle());
         }
 
         timeItem.setOnClickListener(new View.OnClickListener() {
@@ -97,73 +106,35 @@ public class DetailedActivity extends AppCompatActivity {
                 }
             }
         });
+        videoItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, launch.getMission());
+                firebaseAnalytics.logEvent("watch_webcast", bundle);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(launch.getVidUrl()));
+                startActivity(browserIntent);
+            }
+        });
 
         time.setText(launch.getDate() + " at " + launch.getTime());
         location.setText(launch.getLocation());
         details.setText(launch.getDescription());
         subtitle.setText(launch.getVehicle());
 
+        //Load Image
         if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noImages", false)) {
             String r = launch.getVehicle();
-            String imgFalcon9 = "http://i.imgur.com/xYXarSa.jpg",
-                    imgSoyuz = "http://i.imgur.com/dPKLDG1.jpg",
-                    imgRockot = "http://i.imgur.com/DFfnUeH.jpg",
-                    imgH2B = "http://i.imgur.com/bar7eAS.jpg",
-                    imgLongMarch = "http://i.imgur.com/ouTHTvc.jpg",
-                    imgDelta2 = "http://i.imgur.com/hjPGe44.jpg",
-                    imgDelta4 = "http://i.imgur.com/OkWUZvb.jpg",
-                    imgDelta4H = "http://i.imgur.com/KZ3sms3.jpg",
-                    imgPSLV = "http://i.imgur.com/tJQguXE.jpg",
-                    imgProton = "http://i.imgur.com/LVZh3te.jpg",
-                    imgGSLV = "http://i.imgur.com/wN5kC9U.jpg",
-                    imgAtlas5 = "http://i.imgur.com/GJt4xBO.jpg",
-                    imgAriane5 = "http://i.imgur.com/sWDV4kh.jpg",
-                    imgVega = "http://i.imgur.com/TSPzXUi.jpg",
-                    imgMinotaur = "http://i.imgur.com/bdQWcx1.jpg",
-                    imgAntares = "http://i.imgur.com/6k0cDUv.jpg";
-
-                if (r.contains("Falcon")) {
-                    if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_easteregg", false)) {
-                        Glide.with(this).load("https://thumbs.gfycat.com/HandyCleverAustralianshelduck-size_restricted.gif").asGif().error(R.drawable.defaultimg).into(imageView);
-                        Toast.makeText(getApplicationContext(), "You found the easter egg!", Toast.LENGTH_SHORT).show();
-                        Bundle bundle = new Bundle();
-                        firebaseAnalytics.logEvent("easteregg_found", bundle);
-                    }
-                    else
-                        Glide.with(this).load(imgFalcon9).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                }
-                else if (r.contains("Soyuz"))
-                    Glide.with(this).load(imgSoyuz).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Rockot"))
-                    Glide.with(this).load(imgRockot).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("H-2"))
-                    Glide.with(this).load(imgH2B).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Long March"))
-                    Glide.with(this).load(imgLongMarch).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Delta 2") || r.contains("Delta II"))
-                    Glide.with(this).load(imgDelta2).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if ((r.contains("Delta 4") || r.contains("Delta IV")) && r.contains("Heavy"))
-                    Glide.with(this).load(imgDelta4H).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Delta 4") || r.contains("Delta IV"))
-                    Glide.with(this).load(imgDelta4).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("PSLV"))
-                    Glide.with(this).load(imgPSLV).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Proton"))
-                    Glide.with(this).load(imgProton).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("GSLV"))
-                    Glide.with(this).load(imgGSLV).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Atlas 5"))
-                    Glide.with(this).load(imgAtlas5).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Ariane 5"))
-                    Glide.with(this).load(imgAriane5).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Vega"))
-                    Glide.with(this).load(imgVega).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Minotaur"))
-                    Glide.with(this).load(imgMinotaur).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else if (r.contains("Antares"))
-                    Glide.with(this).load(imgAntares).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
-                else
-                    Glide.with(this).load(R.drawable.defaultimg).placeholder(R.drawable.placeholder).into(imageView);
+            if (r.contains("Falcon") && PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_easteregg", false)) {
+                    Glide.with(this).load("https://thumbs.gfycat.com/HandyCleverAustralianshelduck-size_restricted.gif").asGif().error(R.drawable.defaultimg).into(imageView);
+                    Toast.makeText(getApplicationContext(), "You found the easter egg!", Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    firebaseAnalytics.logEvent("easteregg_found", bundle);
+            }
+            else if(!launch.getImgUrl().equals("NONE"))
+                Glide.with(this).load(launch.getImgUrl()).placeholder(R.drawable.placeholder).error(R.drawable.defaultimg).into(imageView);
+            else
+                Glide.with(this).load(R.drawable.defaultimg).placeholder(R.drawable.placeholder).into(imageView);
         }
     }
 

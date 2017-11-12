@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class Launch implements Parcelable, Serializable {
     static final long serialVersionUID =5550090631781729025L;
-    private String mission, vehicle, location, date, time, description;
+    private String mission, vehicle, location, date, time, description, imgUrl, vidUrl, vidTitle;
     private Calendar cal;
     private int year;
     private boolean hasCal;
@@ -23,8 +23,12 @@ public class Launch implements Parcelable, Serializable {
         pc.writeString(date);
         pc.writeString(time);
         pc.writeString(description);
+        pc.writeString(imgUrl);
+        pc.writeString(vidUrl);
+        pc.writeString(vidTitle);
         pc.writeInt(hasCal ? 1 : 0);
         pc.writeLong(cal.getTimeInMillis());
+
     }
 
     private Launch(Parcel pc) {
@@ -34,6 +38,9 @@ public class Launch implements Parcelable, Serializable {
         date = pc.readString();
         time = pc.readString();
         description = pc.readString();
+        imgUrl = pc.readString();
+        vidUrl = pc.readString();
+        vidTitle = pc.readString();
         hasCal = pc.readInt() != 0;
         Calendar tempCal = Calendar.getInstance();
         tempCal.setTimeInMillis(pc.readLong());
@@ -102,6 +109,22 @@ public class Launch implements Parcelable, Serializable {
         this.description = description;
     }
 
+    void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    String getImgUrl() {
+        return imgUrl;
+    }
+
+    String getVidUrl() {
+        return vidUrl;
+    }
+
+    void setVidUrl(String vidUrl) {
+        this.vidUrl = vidUrl;
+    }
+
     int getYear() {
         return year;
     }
@@ -124,6 +147,14 @@ public class Launch implements Parcelable, Serializable {
 
     void setHasCal(boolean hasCal) {
         this.hasCal = hasCal;
+    }
+
+    String getVidTitle() {
+        return vidTitle;
+    }
+
+    void setVidTitle(String vidTitle) {
+        this.vidTitle = vidTitle;
     }
 
 }

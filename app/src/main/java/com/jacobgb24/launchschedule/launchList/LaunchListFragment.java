@@ -105,6 +105,7 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
             FileInputStream fileIn = new FileInputStream(new File(getActivity().getFilesDir(), "Launch Data"));
             ObjectInputStream in = new ObjectInputStream(fileIn);
             launchList = (ArrayList<Launch>) in.readObject();
+
             in.close();
             fileIn.close();
             adapter.setList(launchList);

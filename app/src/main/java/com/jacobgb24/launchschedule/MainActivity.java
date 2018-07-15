@@ -8,10 +8,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import util.ChromeCustomTabs;
-import util.TabAdapter;
+import com.jacobgb24.launchschedule.util.ChromeCustomTabs;
+import com.jacobgb24.launchschedule.util.TabAdapter;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity {

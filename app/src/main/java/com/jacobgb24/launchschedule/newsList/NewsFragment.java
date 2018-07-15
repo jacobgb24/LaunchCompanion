@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,18 +16,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.firebase.crash.FirebaseCrash;
+import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.common.util.IOUtils;
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.DividerItemDecoration;
-import util.Util;
+import com.jacobgb24.launchschedule.util.DividerItemDecoration;
+import com.jacobgb24.launchschedule.util.Util;
 
 /**
  * Created by jacob_000 on 9/16/2015.
@@ -73,7 +77,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void run() {
                         swipeRefreshLayout.setRefreshing(true);
-                        new DownloadFile().execute("http://spacenews.com/feed/");
+                        new DownloadFile().execute("https://spacenews.com/feed/");
                 }
             });
         }
@@ -90,9 +94,8 @@ public class NewsFragment extends android.support.v4.app.Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
                 if(Util.isNetworkConnected()) {
-                    FirebaseCrash.log("Error loading articles");
-                    FirebaseCrash.log("Number of articles: "+rssItemList.size());
-                    FirebaseCrash.report(e);
+                    Crashlytics.log("Error loading articles");
+                    Crashlytics.logException(e);
                 }
 
             }

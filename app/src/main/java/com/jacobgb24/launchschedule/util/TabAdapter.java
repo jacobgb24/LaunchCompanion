@@ -1,4 +1,4 @@
-package util;
+package com.jacobgb24.launchschedule.util;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

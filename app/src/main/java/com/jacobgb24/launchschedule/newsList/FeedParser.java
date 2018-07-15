@@ -16,6 +16,7 @@
 
 package com.jacobgb24.launchschedule.newsList;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -40,6 +41,7 @@ class FeedParser {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+           // Log.e("text", parser.getText());
             parser.setInput(in, null);
             parser.nextTag();
             parser.nextTag();

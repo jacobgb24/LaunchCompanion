@@ -3,7 +3,7 @@ package com.jacobgb24.launchschedule.launchList;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-import com.google.firebase.crash.FirebaseCrash;
+import com.crashlytics.android.Crashlytics;
 import com.jacobgb24.launchschedule.MainActivity;
 
 import java.text.ParseException;
@@ -173,8 +173,8 @@ class DataParser {
 
                 list.add(launch);
             } catch (Exception e) {
-                FirebaseCrash.log("Error parsing launch after "+ list.get(list.size()-1).getMission());
-                FirebaseCrash.report(e);
+                Crashlytics.log("Error parsing launch after "+ list.get(list.size()-1).getMission());
+                Crashlytics.logException(e);
                 e.printStackTrace();
             }
         }

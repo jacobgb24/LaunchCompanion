@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.R;
 
@@ -76,6 +77,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
                 Intent intent = new Intent(activity, DetailedActivity.class);
                 intent.putExtra("LAUNCH_OBJ", (Parcelable) list.get(pos));
                 activity.startActivity(intent);
+                Crashlytics.getInstance().crash();
 
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, list.get(pos).getMission());

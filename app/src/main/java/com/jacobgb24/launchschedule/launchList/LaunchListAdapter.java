@@ -77,7 +77,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<LaunchListAdapter.Vi
                 Intent intent = new Intent(activity, DetailedActivity.class);
                 intent.putExtra("LAUNCH_OBJ", (Parcelable) list.get(pos));
                 activity.startActivity(intent);
-                Crashlytics.getInstance().crash();
 
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, list.get(pos).getMission());

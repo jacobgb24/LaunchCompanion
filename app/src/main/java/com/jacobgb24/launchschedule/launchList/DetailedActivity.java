@@ -22,8 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crash.FirebaseCrash;
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
 
@@ -157,8 +157,8 @@ public class DetailedActivity extends AppCompatActivity {
             } else
                 Toast.makeText(getApplicationContext(), "Reminder already created", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            FirebaseCrash.log("Error making reminder");
-            FirebaseCrash.report(e);
+            Crashlytics.log("Error making reminder");
+            Crashlytics.logException(e);
             e.printStackTrace();
         }
     }

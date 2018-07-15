@@ -1,6 +1,5 @@
-package util;
+package com.jacobgb24.launchschedule.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 

@@ -12,13 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import util.ChromeCustomTabs;
+import com.jacobgb24.launchschedule.util.ChromeCustomTabs;
 
 /**
  * Created by jacob_000 on 9/16/2015.
@@ -62,7 +63,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 ChromeCustomTabs.loadURL(activity, list.get(pos).getLink());
-
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, list.get(pos).getLink());
                 firebaseAnalytics.logEvent("opened_news_article", bundle);

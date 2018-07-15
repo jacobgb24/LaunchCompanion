@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crash.FirebaseCrash;
 import com.jacobgb24.launchschedule.R;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import util.DividerItemDecoration;
+import com.jacobgb24.launchschedule.util.DividerItemDecoration;
 
 /**
  * Created by jacob_000 on 7/26/2016.
@@ -79,8 +79,8 @@ public class SearchActivity extends AppCompatActivity {
             }
             catch (Exception e){
                 e.printStackTrace();
-                FirebaseCrash.log("Error searching");
-                FirebaseCrash.report(e);
+                Crashlytics.log("Error searching");
+                Crashlytics.logException(e);
             }
 
         }

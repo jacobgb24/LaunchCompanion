@@ -1,4 +1,4 @@
-package util;
+package com.jacobgb24.launchschedule.util;
 
 import android.app.Activity;
 import android.content.ComponentName;

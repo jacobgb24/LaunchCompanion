@@ -1,4 +1,4 @@
-package util;
+package com.jacobgb24.launchschedule.util;
 
 /**
  * Created by Jacob on 6/25/16.

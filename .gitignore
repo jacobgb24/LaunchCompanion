@@ -9,3 +9,5 @@
 app/builds
 app/libs
 *.iml
+*.apk
+/*.json

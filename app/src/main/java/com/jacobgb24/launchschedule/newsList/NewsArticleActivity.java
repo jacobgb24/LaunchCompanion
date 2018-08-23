@@ -83,4 +83,10 @@ public class NewsArticleActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        webView.onPause();
+    }
 }

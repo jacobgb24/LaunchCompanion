@@ -9,13 +9,13 @@
 Launch Companion lets you keep track of upcoming rocket launches and learn detailed information about them. A complete list of all upcoming launches is included as well as news articles about the industry.
 
 Features: 
-• Time, location, payload, rocket, and detailed description for each rocket launch
-• News articles about upcoming launches, company announcements, and more
-• Material design with dark theme
-• Create calendar reminders
-• Countdown clock for each launch
-• View launch locations in map
-• Search through launches by mission, rocket, date, and/or location
+- Time, location, payload, rocket, and detailed description for each rocket launch
+- News articles about upcoming launches, company announcements, and more
+- Material design with dark theme
+- Create calendar reminders
+- Countdown clock for each launch
+- View launch locations in map
+- Search through launches by mission, rocket, date, and/or location
 
 ------------
 ### Legal ###

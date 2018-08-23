@@ -33,13 +33,16 @@ class DataParser {
                 .replaceAll("\\p{So}+", "•") //replaces �
                 .replaceAll("Launch (times?|window|period):", "Launch time:");
 
-        while (data.contains("\"datename\"")) {
+
+        int prevLength = Integer.MAX_VALUE;
+        while (data.contains("\"datename\"") && data.length() < prevLength) {
+            prevLength = data.length();
             try {
                 Launch launch = new Launch();
 
                 // Isolate launch from the rest of the HTML
                 String eventData = data.substring(data.indexOf("<div class=\"datename"), data.indexOf("</div>", data.indexOf("missdescrip")) + 6);
-                data = data.substring(data.indexOf("</div>", data.indexOf("missdescrip")) + 6, data.length());
+                data = data.substring(data.indexOf("</", data.indexOf("missdescrip")) + 6, data.length());
 
                 // Date
                 int tmpIndex = eventData.indexOf("launchdate");

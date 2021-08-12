@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
 
@@ -38,7 +40,7 @@ import com.jacobgb24.launchschedule.util.Util;
 /**
  * Created by jacob_000 on 9/15/2015.
  */
-public class LaunchListFragment extends android.support.v4.app.Fragment {
+public class LaunchListFragment extends Fragment {
     private RecyclerView rv;
     private LaunchListAdapter adapter;
     private List<Launch> launchList;
@@ -139,8 +141,8 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
                 if(Util.isNetworkConnected()) {
-                    Crashlytics.log("Error loading launches");
-                    Crashlytics.logException(e);
+                    FirebaseCrashlytics.getInstance().log("Error loading launches");
+                    FirebaseCrashlytics.getInstance().recordException(e);
                 }
             }
             return strdata;
@@ -161,7 +163,8 @@ public class LaunchListFragment extends android.support.v4.app.Fragment {
                     (rv.getAdapter()).notifyDataSetChanged();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Crashlytics.log(1, "Error parsing launch list", e.getMessage());
+                    FirebaseCrashlytics.getInstance().log("Error parsing launch list");
+                    FirebaseCrashlytics.getInstance().recordException(e);
                 }
             } else if (launchList.isEmpty())
                 toast("Error downloading data");

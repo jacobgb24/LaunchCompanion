@@ -2,10 +2,10 @@ package com.jacobgb24.launchschedule.launchList;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jacobgb24.launchschedule.R;
 
@@ -79,8 +79,8 @@ public class SearchActivity extends AppCompatActivity {
             }
             catch (Exception e){
                 e.printStackTrace();
-                Crashlytics.log("Error searching");
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().log("Error searching");
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
 
         }

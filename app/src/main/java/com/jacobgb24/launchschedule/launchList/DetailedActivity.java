@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.SettingsActivity;
 
@@ -157,19 +158,20 @@ public class DetailedActivity extends AppCompatActivity {
             } else
                 Toast.makeText(getApplicationContext(), "Reminder already created", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Crashlytics.log("Error making reminder");
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().log("Error making reminder");
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
     }
+
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 16: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     createReminder();
-                }
-                else {
-                    Toast.makeText(this,"Reminder can't be created without permission", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Reminder can't be created without permission", Toast.LENGTH_SHORT).show();
                 }
             }
         }

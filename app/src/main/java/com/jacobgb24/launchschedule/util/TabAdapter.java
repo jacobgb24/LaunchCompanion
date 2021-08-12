@@ -1,8 +1,8 @@
 package com.jacobgb24.launchschedule.util;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.jacobgb24.launchschedule.launchList.LaunchListFragment;
 import com.jacobgb24.launchschedule.newsList.NewsFragment;

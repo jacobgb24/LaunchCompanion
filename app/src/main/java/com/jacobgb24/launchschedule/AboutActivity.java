@@ -56,7 +56,7 @@ public class AboutActivity extends AppCompatActivity {
                             Toast.makeText(getActivity().getApplicationContext(), "Easter egg enabled", Toast.LENGTH_SHORT).show();
                             Toast.makeText(getActivity().getApplicationContext(), "To disable, tap on the version 8 times", Toast.LENGTH_SHORT).show();
                         }
-                        editor.commit();
+                        editor.apply();
                         count = 0;
                     }
                     return false;

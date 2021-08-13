@@ -119,7 +119,7 @@ public class LaunchListFragment extends Fragment {
     }
 
     private void toast(final String msg) {
-        Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     private class DownloadFile extends AsyncTask<String, Integer, String> {

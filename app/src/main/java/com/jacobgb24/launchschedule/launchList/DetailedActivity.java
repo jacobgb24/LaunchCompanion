@@ -54,7 +54,6 @@ public class DetailedActivity extends AppCompatActivity {
 
     }
 
-    @SuppressWarnings("ConstantConditions")
     private void fillView() {
         TextView subtitle = (TextView) findViewById(R.id.dcard_subtitle);
         ImageView imageView = (ImageView) findViewById(R.id.dcard_img);
@@ -127,7 +126,7 @@ public class DetailedActivity extends AppCompatActivity {
         if (!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_noImages", false)) {
             String r = launch.getVehicle();
             if (r.contains("Falcon") && PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("pref_easteregg", false)) {
-                    Glide.with(this).load("https://thumbs.gfycat.com/HandyCleverAustralianshelduck-size_restricted.gif").asGif().error(R.drawable.defaultimg).into(imageView);
+                    Glide.with(this).asGif().load("https://thumbs.gfycat.com/HandyCleverAustralianshelduck-size_restricted.gif").error(R.drawable.defaultimg).into(imageView);
                     Toast.makeText(getApplicationContext(), "You found the easter egg!", Toast.LENGTH_SHORT).show();
                     Bundle bundle = new Bundle();
                     firebaseAnalytics.logEvent("easteregg_found", bundle);

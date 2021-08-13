@@ -1,5 +1,6 @@
 package com.jacobgb24.launchschedule.launchList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -41,6 +42,7 @@ import com.jacobgb24.launchschedule.util.Util;
  * Created by jacob_000 on 9/15/2015.
  */
 public class LaunchListFragment extends Fragment {
+    private Context context;
     private RecyclerView rv;
     private LaunchListAdapter adapter;
     private List<Launch> launchList;
@@ -50,12 +52,14 @@ public class LaunchListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         launchList = new ArrayList<>();
         setHasOptionsMenu(true);
+        context = getContext();
+
         View view = inflater.inflate(R.layout.fragment_launchlist, viewGroup, false);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.accent_material_light);
         swipeRefreshLayout.setOnRefreshListener(refreshListener);
         rv = (RecyclerView) view.findViewById(R.id.list);
-        rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        rv.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
         refreshListener.onRefresh();
         return view;
     }
@@ -140,7 +144,7 @@ public class LaunchListFragment extends Fragment {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                if(Util.isNetworkConnected()) {
+                if(Util.isNetworkConnected(context)) {
                     FirebaseCrashlytics.getInstance().log("Error loading launches");
                     FirebaseCrashlytics.getInstance().recordException(e);
                 }
@@ -158,7 +162,7 @@ public class LaunchListFragment extends Fragment {
             if (result != null) {
                 try {
                     launchList.clear();
-                    launchList = DataParser.parseData(result);
+                    launchList = DataParser.parseData(result, getContext());
                     adapter.setList(launchList);
                     (rv.getAdapter()).notifyDataSetChanged();
                 } catch (Exception e) {

@@ -16,7 +16,6 @@ import com.jacobgb24.launchschedule.util.TabAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static Context context;
     private boolean darkThemeUsed=false;
     private FirebaseAnalytics firebaseAnalytics;
 
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        MainActivity.context = getApplicationContext();
         firebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         recordUserProps();
 

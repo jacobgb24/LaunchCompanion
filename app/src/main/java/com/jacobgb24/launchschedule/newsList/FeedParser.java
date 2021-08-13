@@ -118,9 +118,7 @@ class FeedParser {
         try {
             link = link.substring(link.indexOf("src") + 4, link.indexOf("class")).replaceAll("\"", "");
         } catch (Exception e){ e.printStackTrace(); }
-        while (true) {
-            if (parser.nextTag() == XmlPullParser.END_TAG) break;
-        }
+
         return link;
     }
 

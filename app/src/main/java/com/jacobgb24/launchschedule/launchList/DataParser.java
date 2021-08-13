@@ -1,5 +1,6 @@
 package com.jacobgb24.launchschedule.launchList;
 
+import android.content.Context;
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -19,9 +20,9 @@ import java.util.TimeZone;
  * Created by jacob_000 on 7/25/2015.
  */
 class DataParser {
-    private static boolean hr24 = DateFormat.is24HourFormat(MainActivity.context);
 
-    static List<Launch> parseData(String data) {
+    static List<Launch> parseData(String data, Context context) {
+        boolean hr24 = DateFormat.is24HourFormat(context);
 
         List<Launch> list = new ArrayList<>();
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -144,7 +145,7 @@ class DataParser {
                 launch.setDescription(eventData.substring(eventData.indexOf(">", tmpIndex) + 1, eventData.indexOf("</div", tmpIndex)));
 
                 // Calendar
-                Calendar cal = CalendarCreator(launch);
+                Calendar cal = CalendarCreator(launch, hr24);
                 launch.setCal(cal);
                 if (cal.get(Calendar.YEAR) > year) {
                     launch.setYear(year = cal.get(Calendar.YEAR));
@@ -155,11 +156,11 @@ class DataParser {
 
                 //Video Stream URL
                 if(launch.getVehicle().contains("Falcon")) {
-                    launch.setVidUrl("http://www.spacex.com/webcast/");
+                    launch.setVidUrl("https://www.spacex.com/webcast/");
                     launch.setVidTitle("SpaceX webcast");
                 }
                 else if(launch.getVehicle().contains("Delta") || launch.getVehicle().contains("Atlas") || launch.getVehicle().contains("Vulcan")) {
-                    launch.setVidUrl("http://www.ulalaunch.com/webcast.aspx");
+                    launch.setVidUrl("https://www.ulalaunch.com/webcast.aspx");
                     launch.setVidTitle("ULA webcast");
                 }
                 else if(launch.getLocation().contains("Florida") || launch.getMission().contains("ISS") || launch.getMission().contains("Progress")) {
@@ -167,7 +168,7 @@ class DataParser {
                     launch.setVidTitle("NASA TV");
                 }
                 else if(launch.getLocation().contains("Kazakhstan")) {
-                    launch.setVidUrl("http://online.roscosmos.ru/");
+                    launch.setVidUrl("https://online.roscosmos.ru/");
                     launch.setVidTitle("Roscosmos");
                 }
                 else
@@ -185,22 +186,22 @@ class DataParser {
     }
 
     private static String ImgUrl(String vehicle){
-        String imgFalcon9 = "http://i.imgur.com/xYXarSa.jpg",
-                imgSoyuz = "http://i.imgur.com/dPKLDG1.jpg",
-                imgRockot = "http://i.imgur.com/DFfnUeH.jpg",
-                imgH2B = "http://i.imgur.com/bar7eAS.jpg",
-                imgLongMarch = "http://i.imgur.com/ouTHTvc.jpg",
-                imgDelta2 = "http://i.imgur.com/hjPGe44.jpg",
-                imgDelta4 = "http://i.imgur.com/OkWUZvb.jpg",
-                imgDelta4H = "http://i.imgur.com/KZ3sms3.jpg",
-                imgPSLV = "http://i.imgur.com/tJQguXE.jpg",
-                imgProton = "http://i.imgur.com/LVZh3te.jpg",
-                imgGSLV = "http://i.imgur.com/wN5kC9U.jpg",
-                imgAtlas5 = "http://i.imgur.com/GJt4xBO.jpg",
-                imgAriane5 = "http://i.imgur.com/sWDV4kh.jpg",
-                imgVega = "http://i.imgur.com/TSPzXUi.jpg",
-                imgMinotaur = "http://i.imgur.com/bdQWcx1.jpg",
-                imgAntares = "http://i.imgur.com/6k0cDUv.jpg";
+        String imgFalcon9 = "https://i.imgur.com/xYXarSa.jpg",
+                imgSoyuz = "https://i.imgur.com/dPKLDG1.jpg",
+                imgRockot = "https://i.imgur.com/DFfnUeH.jpg",
+                imgH2B = "https://i.imgur.com/bar7eAS.jpg",
+                imgLongMarch = "https://i.imgur.com/ouTHTvc.jpg",
+                imgDelta2 = "https://i.imgur.com/hjPGe44.jpg",
+                imgDelta4 = "https://i.imgur.com/OkWUZvb.jpg",
+                imgDelta4H = "https://i.imgur.com/KZ3sms3.jpg",
+                imgPSLV = "https://i.imgur.com/tJQguXE.jpg",
+                imgProton = "https://i.imgur.com/LVZh3te.jpg",
+                imgGSLV = "https://i.imgur.com/wN5kC9U.jpg",
+                imgAtlas5 = "https://i.imgur.com/GJt4xBO.jpg",
+                imgAriane5 = "https://i.imgur.com/sWDV4kh.jpg",
+                imgVega = "https://i.imgur.com/TSPzXUi.jpg",
+                imgMinotaur = "https://i.imgur.com/bdQWcx1.jpg",
+                imgAntares = "https://i.imgur.com/6k0cDUv.jpg";
         if (vehicle.contains("Falcon"))
             return imgFalcon9;
         else if (vehicle.contains("Soyuz"))
@@ -243,7 +244,7 @@ class DataParser {
      * @param launch The launch from which to create the calendar. It does not get modified.
      * @return A {@link } containing the calendar and the accuracy value for the calendar.
      */
-    private static Calendar CalendarCreator(Launch launch) {
+    private static Calendar CalendarCreator(Launch launch, boolean hr24) {
         final SimpleDateFormat sdf = new SimpleDateFormat("", Locale.ENGLISH);
         if (hr24) sdf.applyPattern("H:mm zzz MMM d yyyy");
         else sdf.applyPattern("h:mm a zzz MMM d yyyy");

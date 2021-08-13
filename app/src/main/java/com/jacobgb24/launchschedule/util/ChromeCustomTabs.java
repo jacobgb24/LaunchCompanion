@@ -15,6 +15,7 @@ import androidx.browser.customtabs.CustomTabsServiceConnection;
 import androidx.browser.customtabs.CustomTabsSession;
 import androidx.core.content.ContextCompat;
 
+import com.jacobgb24.launchschedule.BuildConfig;
 import com.jacobgb24.launchschedule.MainActivity;
 import com.jacobgb24.launchschedule.R;
 import com.jacobgb24.launchschedule.newsList.NewsArticleActivity;
@@ -53,7 +54,7 @@ public class ChromeCustomTabs {
             customTabsIntent = builder.build();
             builder.setCloseButtonIcon(BitmapFactory.decodeResource(mainActivity.getResources(), R.mipmap.ic_arrow_back_white_24dp));
             builder.setToolbarColor(ContextCompat.getColor(mainActivity.getApplicationContext(), android.R.color.background_dark));
-            customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + MainActivity.context.getPackageName()));
+            customTabsIntent.intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + BuildConfig.APPLICATION_ID));
         }
     }
 

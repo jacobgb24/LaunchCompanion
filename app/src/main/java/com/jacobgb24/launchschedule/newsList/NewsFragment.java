@@ -1,5 +1,6 @@
 package com.jacobgb24.launchschedule.newsList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -36,6 +37,7 @@ import com.jacobgb24.launchschedule.util.Util;
  */
 public class NewsFragment extends Fragment {
 
+    private Context context;
     private RecyclerView rv;
     private NewsAdapter adapter;
     private List<FeedParser.Entry> rssItemList;
@@ -44,6 +46,8 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
+        context = getContext();
         View view = inflater.inflate(R.layout.fragment_news, viewGroup, false);
         rv = (RecyclerView) view.findViewById(R.id.list_news);
         rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
@@ -92,7 +96,7 @@ public class NewsFragment extends Fragment {
                 rssItemList = FeedParser.parse(inputStream);
             } catch (Exception e) {
                 e.printStackTrace();
-                if(Util.isNetworkConnected()) {
+                if(Util.isNetworkConnected(context)) {
                     FirebaseCrashlytics.getInstance().log("Error loading articles");
                     FirebaseCrashlytics.getInstance().recordException(e);
                 }

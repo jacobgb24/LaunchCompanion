@@ -47,8 +47,8 @@ class DataParser {
 
                 // Date
                 int tmpIndex = eventData.indexOf("launchdate");
-                String date = eventData.substring(tmpIndex + 12, eventData.indexOf("<", tmpIndex)).replace("Sept.", "Sep.");
-                if(date.trim().equals(""))
+                String date = eventData.substring(tmpIndex + 12, eventData.indexOf("<", tmpIndex)).replace("Sept.", "Sep.").trim();
+                if(date.equals(""))
                     date="TBD";
                 launch.setDate(date);
                 launch.setYear(year);
@@ -63,7 +63,7 @@ class DataParser {
                 tmpIndex = eventData.indexOf("missiondata");
                 if (eventData.indexOf("time:", tmpIndex) != -1) {
                     tmpIndex = eventData.indexOf("time:", tmpIndex) + 5;
-                    String time = eventData.substring(tmpIndex, eventData.indexOf("<br", tmpIndex)).replaceAll("\\.m\\.", "m").trim();
+                    String time = eventData.substring(tmpIndex, eventData.toLowerCase().indexOf("<br", tmpIndex)).replaceAll("\\.m\\.", "m").trim();
                     time = time.replaceAll("Approx. (:[0-9]{2})?| on [0-9]{1,2}(st|nd|rd|th)| \\([^)]*\\)", "");
                     time = time.replaceAll("(:[0-9]{2})", "");
                     if(time.trim().equals(""))
@@ -142,7 +142,7 @@ class DataParser {
 
                 // Description
                 tmpIndex = eventData.indexOf("missdescrip");
-                launch.setDescription(eventData.substring(eventData.indexOf(">", tmpIndex) + 1, eventData.indexOf("</div", tmpIndex)));
+                launch.setDescription(eventData.substring(eventData.indexOf("p>", tmpIndex) + 2, eventData.indexOf("</div", tmpIndex)));
 
                 // Calendar
                 Calendar cal = CalendarCreator(launch, hr24);
@@ -177,9 +177,10 @@ class DataParser {
 
                 list.add(launch);
             } catch (Exception e) {
-                FirebaseCrashlytics.getInstance().log("Error parsing launch after "+ list.get(list.size()-1).getMission());
-                FirebaseCrashlytics.getInstance().recordException(e);
                 e.printStackTrace();
+                String lastParsed = list.size() > 0 ? list.get(list.size() - 1).getMission() : "N/A";
+                FirebaseCrashlytics.getInstance().log("Error parsing launch after "+ lastParsed);
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
         }
         return list;
